@@ -147,7 +147,7 @@ const Chat = () => {
 
   return (
     <div className="main-content flex flex-col w-full h-[calc(100dvh-70px)] md:h-[calc(100vh-80px)] pb-0">
-      <div className="mb-2 md:mb-4 flex items-center justify-between md:justify-start gap-2 flex-shrink-0">
+      <div className="hidden md:flex mb-2 md:mb-4 items-center justify-between md:justify-start gap-2 flex-shrink-0">
         <h1 className="text-primary-dark text-xl md:text-3xl mb-0 md:mb-1 font-semibold">HealthMate Assistant</h1>
         <p className="text-muted-foreground text-sm md:text-base hidden md:block ml-4">Ask questions about symptoms, health practices, and get general guidance.</p>
       </div>
