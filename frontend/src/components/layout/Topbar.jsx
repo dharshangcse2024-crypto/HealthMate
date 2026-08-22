@@ -32,7 +32,7 @@ const Topbar = ({ toggleSidebar }) => {
   };
 
   return (
-    <header className="flex items-center justify-between px-6 h-[80px] bg-transparent z-10 sticky top-0 w-full">
+    <header className="flex items-center justify-between px-6 h-[80px] bg-transparent z-10 w-full">
       <div className="flex items-center gap-6 flex-1">
         <button onClick={toggleSidebar} className="lg:hidden bg-white/20 p-2 rounded-lg text-white hover:bg-white/30 transition-colors border border-white/30 backdrop-blur-sm">
           <Menu size={24} />
