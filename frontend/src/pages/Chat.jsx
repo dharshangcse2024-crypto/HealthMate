@@ -255,20 +255,39 @@ const Chat = () => {
           </div>
         </Card>
 
+        {/* Mobile Header (matches ChatGPT screenshot) */}
+        <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-100">
+          <button 
+            onClick={toggleSidebar}
+            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+          </button>
+          
+          <button className="flex items-center gap-2 bg-[#f3f7ff] text-[#2563eb] px-4 py-2 rounded-full font-medium text-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Get Plus
+          </button>
+          
+          <button className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white" onClick={createNewSession}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          </button>
+        </div>
+
         {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col overflow-hidden bg-background w-full min-h-0 relative rounded-2xl md:rounded-none">
+        <div className="flex-1 flex flex-col overflow-hidden bg-white md:bg-background w-full min-h-0 relative rounded-2xl md:rounded-none">
           
           {messages.length === 1 && !currentSessionId ? (
             // EMPTY STATE
-            <div className="flex-1 flex flex-col items-center justify-end p-4 md:p-8 mx-auto w-full max-w-3xl overflow-y-auto">
-              <div className="flex-1 flex items-center justify-center">
+            <div className="flex-1 flex flex-col items-center justify-end p-0 md:p-8 mx-auto w-full max-w-3xl overflow-y-auto">
+              <div className="hidden md:flex flex-1 items-center justify-center">
                 <h2 className="text-2xl md:text-4xl font-semibold text-foreground mb-8 text-center px-4">
                   What's on your mind?
                 </h2>
               </div>
               
-              {/* Suggestions List (stacked bottom) */}
-              <div className="flex flex-col gap-2 w-full max-w-2xl mx-auto mb-4">
+              {/* Suggestions List (stacked bottom, hidden on mobile) */}
+              <div className="hidden md:flex flex-col gap-2 w-full max-w-2xl mx-auto mb-4">
                 <button 
                   onClick={() => setInput("Can you help me check my symptoms?")} 
                   className="flex items-center gap-4 p-3 md:p-4 rounded-xl border border-transparent hover:border-border bg-transparent hover:bg-surface cursor-pointer text-left transition-all"
@@ -292,21 +311,26 @@ const Chat = () => {
                 </button>
               </div>
 
-              <div className="w-full max-w-2xl relative mx-auto mb-2 md:mb-8">
-                <form onSubmit={handleSend} className="flex items-center bg-surface border border-border rounded-full overflow-hidden p-1 shadow-md transition-all duration-200 focus-within:border-primary focus-within:shadow-lg bg-[#2f2f2f] border-none text-white">
-                  <div className="pl-3 pr-1 text-gray-400">
+              {/* Empty state input bar wrapper */}
+              <div className="w-full max-w-2xl relative mx-auto mb-4 md:mb-8 px-4 md:px-0">
+                <form onSubmit={handleSend} className="flex items-center bg-[#f4f4f4] md:bg-[#2f2f2f] rounded-full overflow-hidden p-1 shadow-sm md:shadow-md transition-all duration-200 focus-within:ring-2 focus-within:ring-gray-200 md:focus-within:ring-0 md:focus-within:border-primary md:border-none">
+                  <div className="pl-3 pr-1 text-gray-500 md:text-gray-400">
                     <Plus size={24} />
                   </div>
                   <input
                     type="text"
-                    className="flex-1 border-none bg-transparent px-2 py-3 text-base outline-none text-white w-full placeholder-gray-400"
-                    placeholder="Ask anything"
+                    className="flex-1 border-none bg-transparent px-2 py-3 md:py-3.5 text-base outline-none text-gray-800 md:text-white w-full placeholder-gray-500 md:placeholder-gray-400"
+                    placeholder="Ask ChatGPT"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     disabled={loading}
                   />
-                  <div className="pr-1 flex items-center gap-1">
-                    <button type="submit" disabled={loading || !input.trim()} className={`p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white cursor-pointer hover:bg-blue-600'}`}>
+                  <div className="pr-1 flex items-center gap-2">
+                    {/* Voice icon placeholder */}
+                    <div className="w-8 h-8 rounded-full bg-[#fbbc05] md:hidden flex items-center justify-center text-white">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </div>
+                    <button type="submit" disabled={loading || !input.trim()} className={`p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-gray-400 cursor-not-allowed' : 'bg-black md:bg-blue-500 text-white cursor-pointer hover:bg-gray-800'}`}>
                       {loading ? <Loader2 className="animate-spin" size={20} /> : <Activity size={20} className="rotate-90" />}
                     </button>
                   </div>
@@ -356,19 +380,19 @@ const Chat = () => {
                 <div ref={messagesEndRef} />
               </div>
               
-              <div className="p-3 md:p-6 lg:p-8 bg-background mt-auto flex-shrink-0 md:border-t md:border-border">
-                <form onSubmit={handleSend} className="flex items-center w-full max-w-4xl mx-auto bg-[#2f2f2f] md:bg-transparent rounded-full md:rounded-none overflow-hidden md:overflow-visible p-1 md:p-0 shadow-md md:shadow-none md:gap-4">
+              <div className="p-3 md:p-6 lg:p-8 bg-white md:bg-background mt-auto flex-shrink-0 md:border-t md:border-border">
+                <form onSubmit={handleSend} className="flex items-center w-full max-w-4xl mx-auto bg-[#f4f4f4] md:bg-transparent rounded-full md:rounded-none overflow-hidden md:overflow-visible p-1 md:p-0 shadow-sm md:shadow-none md:gap-4">
                   
                   {/* Mobile plus icon */}
-                  <div className="pl-3 pr-1 text-gray-400 md:hidden">
+                  <div className="pl-3 pr-1 text-gray-500 md:hidden">
                     <Plus size={24} />
                   </div>
 
                   <div className="flex-1 md:bg-surface md:border md:border-border md:rounded-2xl md:flex md:items-center md:px-2 md:focus-within:border-primary md:focus-within:shadow-md transition-all">
                     <input
                       type="text"
-                      className="border-none bg-transparent px-2 py-3 md:py-3.5 text-base outline-none text-white md:text-foreground w-full placeholder-gray-400 md:placeholder-muted-foreground"
-                      placeholder="Ask anything..."
+                      className="border-none bg-transparent px-2 py-3 md:py-3.5 text-base outline-none text-gray-800 md:text-foreground w-full placeholder-gray-500 md:placeholder-muted-foreground"
+                      placeholder="Ask ChatGPT"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       disabled={loading}
@@ -376,9 +400,14 @@ const Chat = () => {
                   </div>
 
                   {/* Submit button wrapper */}
-                  <div className="pr-1 md:pr-0 flex items-center gap-1 md:flex-shrink-0">
+                  <div className="pr-1 md:pr-0 flex items-center gap-2 md:flex-shrink-0">
+                    {/* Voice icon placeholder */}
+                    <div className="w-8 h-8 rounded-full bg-[#fbbc05] md:hidden flex items-center justify-center text-white">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </div>
+
                     {/* Mobile submit button */}
-                    <button type="submit" disabled={loading || !input.trim()} className={`md:hidden p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white cursor-pointer hover:bg-blue-600'}`}>
+                    <button type="submit" disabled={loading || !input.trim()} className={`md:hidden p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-gray-400 cursor-not-allowed' : 'bg-black text-white cursor-pointer hover:bg-gray-800'}`}>
                       {loading ? <Loader2 className="animate-spin" size={20} /> : <Activity size={20} className="rotate-90" />}
                     </button>
 

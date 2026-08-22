@@ -62,12 +62,14 @@ function AppContent() {
       <ReminderNotification />
       
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-      <div className="relative z-10 flex-1 flex flex-col min-w-0">
-        <Topbar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-        <main className="p-4 md:p-6 lg:p-8 flex-1 w-full max-w-7xl mx-auto">
+      <div className={`relative z-10 flex-1 flex flex-col min-w-0 ${location.pathname === '/chat' ? 'bg-white md:bg-transparent' : ''}`}>
+        <div className={location.pathname === '/chat' ? 'hidden md:block' : 'block'}>
+          <Topbar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        </div>
+        <main className={`flex-1 w-full max-w-7xl mx-auto flex flex-col ${location.pathname === '/chat' ? 'p-0 md:p-6 lg:p-8' : 'p-4 md:p-6 lg:p-8'}`}>
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/chat" element={<Chat />} />
+            <Route path="/chat" element={<Chat toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />} />
             <Route path="/symptom-checker" element={<SymptomChecker />} />
             <Route path="/history" element={<History />} />
             <Route path="/medicine-reminders" element={<MedicineReminders />} />
