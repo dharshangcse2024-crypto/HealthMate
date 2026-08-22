@@ -88,9 +88,12 @@ const Landing = () => {
   const { scrollYProgress: scrollYProgress2 } = useScroll({ target: targetRef2 });
   const { scrollYProgress: scrollYProgress3 } = useScroll({ target: targetRef3 });
 
-  const text = "TRACK YOUR HEALTH";
-  const characters = text.split("");
-  const centerIndex = Math.floor(characters.length / 2);
+  const textLine1 = "TRACK YOUR";
+  const textLine2 = "HEALTH";
+  const characters1 = textLine1.split("");
+  const characters2 = textLine2.split("");
+  const centerIndex1 = Math.floor(characters1.length / 2);
+  const centerIndex2 = Math.floor(characters2.length / 2);
 
   const iconsText = "💡⚡🚀🛡️🔥✨📊🤖💻";
   const iconCharsArray = [...iconsText];
@@ -159,18 +162,31 @@ const Landing = () => {
             className="relative box-border flex h-[210vh] items-center justify-center gap-[2vw] overflow-hidden p-[2vw]"
           >
             <div
-              className="font-geist w-full max-w-[100vw] text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white whitespace-nowrap"
+              className="font-geist w-full max-w-[100vw] flex flex-col text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white whitespace-nowrap"
               style={{ perspective: "500px" }}
             >
-              {characters.map((char, index) => (
-                <CharacterV1
-                  key={index}
-                  char={char}
-                  index={index}
-                  centerIndex={centerIndex}
-                  scrollYProgress={scrollYProgress}
-                />
-              ))}
+              <div>
+                {characters1.map((char, index) => (
+                  <CharacterV1
+                    key={`l1-${index}`}
+                    char={char}
+                    index={index}
+                    centerIndex={centerIndex1}
+                    scrollYProgress={scrollYProgress}
+                  />
+                ))}
+              </div>
+              <div>
+                {characters2.map((char, index) => (
+                  <CharacterV1
+                    key={`l2-${index}`}
+                    char={char}
+                    index={index}
+                    centerIndex={centerIndex2}
+                    scrollYProgress={scrollYProgress}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
@@ -205,7 +221,7 @@ const Landing = () => {
             <p className="font-geist flex items-center justify-center gap-3 text-xl md:text-3xl font-medium tracking-tight text-white mb-8">
               <Bracket className="h-12 text-white fill-white" />
               <span className="font-geist font-medium">
-                get started for free today
+                get started
               </span>
               <Bracket className="h-12 scale-x-[-1] text-white fill-white" />
             </p>
