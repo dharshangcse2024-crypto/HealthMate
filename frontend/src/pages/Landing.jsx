@@ -159,7 +159,7 @@ const Landing = () => {
             className="relative box-border flex h-[210vh] items-center justify-center gap-[2vw] overflow-hidden p-[2vw]"
           >
             <div
-              className="font-geist w-full max-w-4xl text-center text-6xl md:text-8xl font-bold uppercase tracking-tighter text-white"
+              className="font-geist w-full max-w-[100vw] text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white whitespace-nowrap"
               style={{ perspective: "500px" }}
             >
               {characters.map((char, index) => (
@@ -185,7 +185,7 @@ const Landing = () => {
               </span>
               <Bracket className="h-12 scale-x-[-1] text-white fill-white" />
             </p>
-            <div className="font-geist w-full max-w-4xl text-center text-6xl md:text-8xl font-bold uppercase tracking-tighter text-white">
+            <div className="font-geist w-full max-w-[100vw] text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white whitespace-nowrap">
               {iconCharsArray.map((char, index) => (
                 <CharacterV2
                   key={index}
@@ -210,7 +210,7 @@ const Landing = () => {
               <Bracket className="h-12 scale-x-[-1] text-white fill-white" />
             </p>
             <div
-              className="font-geist w-full max-w-4xl text-center text-6xl md:text-8xl font-bold uppercase tracking-tighter text-white"
+              className="font-geist w-full max-w-[100vw] text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white whitespace-nowrap"
               style={{ perspective: "500px" }}
             >
               {iconCharsArray.map((char, index) => (
