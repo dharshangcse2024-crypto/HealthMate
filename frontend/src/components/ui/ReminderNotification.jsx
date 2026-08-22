@@ -28,10 +28,12 @@ const ReminderNotification = () => {
   useEffect(() => {
     const checkInterval = setInterval(() => {
       const now = new Date();
-      const currentMinute = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+      const pad = (n) => n.toString().padStart(2, '0');
+      const currentMinute = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
       
       if (currentMinute !== lastCheckedMinute) {
         setLastCheckedMinute(currentMinute);
+        console.log(`[ReminderNotification] Checking reminders for ${currentMinute}. Total active reminders: ${reminders.length}`);
         
         // Find reminders that match this time
         const dueReminders = reminders.filter(r => {
@@ -47,6 +49,7 @@ const ReminderNotification = () => {
         });
 
         if (dueReminders.length > 0) {
+          console.log(`[ReminderNotification] Found ${dueReminders.length} due reminders!`);
           // Add them to active notifications
           setActiveNotifications(prev => {
             const newNotifs = [...prev];
