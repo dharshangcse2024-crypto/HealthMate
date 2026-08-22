@@ -6,7 +6,7 @@ import api from '../../services/api';
 const ReminderNotification = () => {
   const [reminders, setReminders] = useState([]);
   const [activeNotifications, setActiveNotifications] = useState([]);
-  const [lastCheckedMinute, setLastCheckedMinute] = useState('');
+  const [notifiedMap, setNotifiedMap] = useState({});
 
   const fetchReminders = async () => {
     try {
@@ -20,8 +20,8 @@ const ReminderNotification = () => {
 
   useEffect(() => {
     fetchReminders();
-    // Poll for new reminders every 5 minutes
-    const fetchInterval = setInterval(fetchReminders, 5 * 60 * 1000);
+    // Poll for new reminders frequently so we catch newly added ones quickly
+    const fetchInterval = setInterval(fetchReminders, 20 * 1000);
     return () => clearInterval(fetchInterval);
   }, []);
 
@@ -31,26 +31,37 @@ const ReminderNotification = () => {
       const pad = (n) => n.toString().padStart(2, '0');
       const currentMinute = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
       
-      if (currentMinute !== lastCheckedMinute) {
-        setLastCheckedMinute(currentMinute);
-        console.log(`[ReminderNotification] Checking reminders for ${currentMinute}. Total active reminders: ${reminders.length}`);
+      console.log(`[ReminderNotification] Checking reminders for ${currentMinute}. Total active reminders: ${reminders.length}`);
+      
+      // Find reminders that match this time
+      const dueReminders = reminders.filter(r => {
+        if (r.reminder_time !== currentMinute) return false;
         
-        // Find reminders that match this time
-        const dueReminders = reminders.filter(r => {
-          if (r.reminder_time !== currentMinute) return false;
-          
-          // Check specific days if applicable
-          if (r.frequency === 'specific_days' && r.days_of_week) {
-            const daysMap = { 0: 'Sun', 1: 'Mon', 2: 'Tue', 3: 'Wed', 4: 'Thu', 5: 'Fri', 6: 'Sat' };
-            const currentDay = daysMap[now.getDay()];
-            if (!r.days_of_week.includes(currentDay)) return false;
-          }
-          return true;
+        // Skip if we already notified for this exact reminder and minute
+        if (notifiedMap[`${r.id}-${currentMinute}`]) return false;
+        
+        // Check specific days if applicable
+        if (r.frequency === 'specific_days' && r.days_of_week) {
+          const daysMap = { 0: 'Sun', 1: 'Mon', 2: 'Tue', 3: 'Wed', 4: 'Thu', 5: 'Fri', 6: 'Sat' };
+          const currentDay = daysMap[now.getDay()];
+          if (!r.days_of_week.includes(currentDay)) return false;
+        }
+        return true;
+      });
+
+      if (dueReminders.length > 0) {
+        console.log(`[ReminderNotification] Found ${dueReminders.length} due reminders!`);
+        
+        // Mark as notified so it doesn't trigger again this minute
+        setNotifiedMap(prev => {
+          const next = { ...prev };
+          dueReminders.forEach(d => {
+            next[`${d.id}-${currentMinute}`] = true;
+          });
+          return next;
         });
 
-        if (dueReminders.length > 0) {
-          console.log(`[ReminderNotification] Found ${dueReminders.length} due reminders!`);
-          // Add them to active notifications
+        // Add them to active notifications
           setActiveNotifications(prev => {
             const newNotifs = [...prev];
             dueReminders.forEach(due => {
@@ -60,12 +71,11 @@ const ReminderNotification = () => {
             });
             return newNotifs;
           });
-        }
       }
     }, 10000); // Check every 10 seconds
 
     return () => clearInterval(checkInterval);
-  }, [reminders, lastCheckedMinute]);
+  }, [reminders, notifiedMap]);
 
   const handleDismiss = (id) => {
     setActiveNotifications(prev => prev.filter(n => n.id !== id));
