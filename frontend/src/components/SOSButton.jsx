@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import api from '../services/api';
 import { AlertTriangle, Loader2, Mail } from 'lucide-react';
 import Card from './ui/Card';
@@ -55,9 +56,13 @@ const SOSButton = () => {
 
   return (
     <Card style={{ padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-      <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: '#fee2e2', color: 'var(--error)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+      <motion.div 
+        animate={loading ? { scale: [1, 1.1, 1], boxShadow: ["0px 0px 0px rgba(220, 38, 38, 0)", "0px 0px 20px rgba(220, 38, 38, 0.4)", "0px 0px 0px rgba(220, 38, 38, 0)"] } : { scale: 1, boxShadow: "none" }}
+        transition={{ duration: 1.5, repeat: loading ? Infinity : 0, ease: "easeInOut" }}
+        style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: '#fee2e2', color: 'var(--error)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}
+      >
         <AlertTriangle size={32} />
-      </div>
+      </motion.div>
       <h3 style={{ color: 'var(--error)', marginBottom: '0.5rem' }}>Emergency / SOS</h3>
       <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
         In case of a medical emergency, contact immediate help.

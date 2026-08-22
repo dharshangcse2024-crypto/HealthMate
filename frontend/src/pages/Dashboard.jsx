@@ -1,5 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import api from '../services/api';
 import { 
   Stethoscope, 
@@ -40,6 +41,19 @@ const Dashboard = () => {
   const [bmi, setBmi] = useState(null);
   const [bmiCategory, setBmiCategory] = useState({ label: '', color: '' });
   const [recalculating, setRecalculating] = useState(false);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    show: { opacity: 1, y: 0 }
+  };
 
   useEffect(() => {
     if (user && !localStorage.getItem(`consent_${user.id || user.user_id}`)) {
@@ -160,7 +174,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+    >
       {/* Consent Modal */}
       <Modal 
         isOpen={showConsent} 
@@ -203,9 +222,15 @@ const Dashboard = () => {
               onClick={handleRecalculate}
               loading={recalculating}
               variant="outline"
-              icon={RefreshCw}
               style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem', borderColor: 'var(--border)', color: 'var(--text-muted)' }}
             >
+              <motion.div
+                animate={{ rotate: recalculating ? 360 : 0 }}
+                transition={{ duration: 1, ease: "linear", repeat: recalculating ? Infinity : 0 }}
+                style={{ display: 'inline-flex', marginRight: '0.5rem' }}
+              >
+                <RefreshCw size={14} />
+              </motion.div>
               Recalculate
             </Button>
           </div>
@@ -223,16 +248,21 @@ const Dashboard = () => {
                 </div>
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  <div style={{ padding: '0.75rem', backgroundColor: 'var(--background)', borderRadius: '0.5rem' }}>
+                <motion.div 
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="show"
+                  style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}
+                >
+                  <motion.div variants={itemVariants} style={{ padding: '0.75rem', backgroundColor: 'var(--background)', borderRadius: '0.5rem' }}>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Height</div>
                     <div style={{ fontWeight: 'bold', color: 'var(--text)' }}>{profile?.height || '—'} cm</div>
-                  </div>
-                  <div style={{ padding: '0.75rem', backgroundColor: 'var(--background)', borderRadius: '0.5rem' }}>
+                  </motion.div>
+                  <motion.div variants={itemVariants} style={{ padding: '0.75rem', backgroundColor: 'var(--background)', borderRadius: '0.5rem' }}>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Weight</div>
                     <div style={{ fontWeight: 'bold', color: 'var(--text)' }}>{profile?.weight || '—'} kg</div>
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
                 <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '1rem', lineHeight: 1.5 }}>
                   BMI is a screening indicator, not a medical diagnosis. Consult a doctor for personalized health advice.
                 </p>
@@ -255,7 +285,12 @@ const Dashboard = () => {
 
       {/* Quick Actions */}
       <h3 style={{ fontSize: '1.125rem', marginBottom: '1rem' }} className="text-foreground font-semibold">Quick Actions</h3>
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-8 w-full">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-8 w-full"
+      >
         {[
           { to: '/symptom-checker', icon: Stethoscope, label: 'Symptom Checker', desc: 'Check your symptoms', bg: 'var(--secondary-light)', color: 'var(--primary)' },
           { to: '/chat', icon: Bot, label: 'AI Chatbot', desc: 'Ask health questions', bg: '#f0f9ff', color: 'var(--primary-dark)' },
@@ -264,17 +299,19 @@ const Dashboard = () => {
           { to: '/medicines', icon: Activity, label: 'Medicine Info', desc: 'Look up medicines', bg: '#e0e7ff', color: '#4338ca' },
           { to: '/history', icon: ClipboardList, label: 'Health History', desc: 'View past records', bg: '#fce7f3', color: '#be185d' },
         ].map(action => (
-          <Link key={action.to} to={action.to} style={{ textDecoration: 'none', display: 'block' }}>
-            <Card style={{ padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s ease', border: 'none', backgroundColor: action.bg, height: '100%', boxSizing: 'border-box' }}>
+          <motion.div key={action.to} variants={itemVariants} whileHover={{ y: -5, transition: { duration: 0.2 } }}>
+            <Link to={action.to} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+              <Card style={{ padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s ease', border: 'none', backgroundColor: action.bg, height: '100%', boxSizing: 'border-box' }}>
               <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', backgroundColor: 'white', color: action.color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
                 <action.icon size={20} />
               </div>
               <h4 style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text)', marginBottom: '0.25rem' }}>{action.label}</h4>
               <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)' }}>{action.desc}</p>
-            </Card>
-          </Link>
+              </Card>
+            </Link>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Recent Activity — Real Data */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
@@ -294,38 +331,47 @@ const Dashboard = () => {
         </Card>
       ) : (
         <Card style={{ padding: 0 }}>
-          {recentActivity.map((record, idx) => (
-            <div key={record.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: idx < recentActivity.length - 1 ? '1px solid var(--border)' : 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div style={{
-                  width: '40px', height: '40px', borderRadius: '0.5rem',
-                  backgroundColor: record.record_type === 'ai_chat' ? '#fef3c7' : 'var(--secondary)',
-                  color: record.record_type === 'ai_chat' ? '#d97706' : 'var(--primary)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center'
-                }}>
-                  {record.record_type === 'ai_chat' ? <MessageSquareHeart size={20} /> : <Activity size={20} />}
+          <AnimatePresence initial={false}>
+            {recentActivity.map((record, idx) => (
+              <motion.div 
+                key={record.id} 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: idx < recentActivity.length - 1 ? '1px solid var(--border)' : 'none', overflow: 'hidden' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <div style={{
+                    width: '40px', height: '40px', borderRadius: '0.5rem',
+                    backgroundColor: record.record_type === 'ai_chat' ? '#fef3c7' : 'var(--secondary)',
+                    color: record.record_type === 'ai_chat' ? '#d97706' : 'var(--primary)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  }}>
+                    {record.record_type === 'ai_chat' ? <MessageSquareHeart size={20} /> : <Activity size={20} />}
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '0.95rem', margin: 0 }}>
+                      {record.record_type === 'ai_chat' ? 'AI Consultation' : 'Symptom Check'}
+                    </h4>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
+                      {record.record_type === 'ai_chat'
+                        ? (record.description?.substring(0, 50) || 'Health query') + (record.description?.length > 50 ? '...' : '')
+                        : record.symptoms
+                          ? JSON.parse(record.symptoms).slice(0, 3).join(', ')
+                          : record.prediction || 'Analysis'}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 style={{ fontSize: '0.95rem', margin: 0 }}>
-                    {record.record_type === 'ai_chat' ? 'AI Consultation' : 'Symptom Check'}
-                  </h4>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
-                    {record.record_type === 'ai_chat'
-                      ? (record.description?.substring(0, 50) || 'Health query') + (record.description?.length > 50 ? '...' : '')
-                      : record.symptoms
-                        ? JSON.parse(record.symptoms).slice(0, 3).join(', ')
-                        : record.prediction || 'Analysis'}
-                  </p>
-                </div>
-              </div>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
-                {formatDate(record.created_at)}
-              </span>
-            </div>
-          ))}
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                  {formatDate(record.created_at)}
+                </span>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </Card>
       )}
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const BmiGauge = ({ bmi, category, color }) => {
   // Map BMI to angle (15 to 40 BMI range → 0 to 180 degrees)
@@ -25,17 +26,27 @@ const BmiGauge = ({ bmi, category, color }) => {
       {/* Obese: 108-180deg (error/red) */}
       <path d="M 157.1 39.5 A 80 80 0 0 1 180 100" fill="none" stroke="var(--error)" strokeWidth="12" strokeLinecap="round" opacity="0.6" />
       
-      {/* Needle */}
-      <line x1={cx} y1={cy} x2={cx - radius * 0.75} y2={cy} stroke={color || '#64748b'} strokeWidth="3" strokeLinecap="round">
-        <animateTransform attributeName="transform" type="rotate" from={`0 ${cx} ${cy}`} to={`${angle} ${cx} ${cy}`} dur="1s" fill="freeze" />
-      </line>
-      
-      {/* Center dot */}
-      <circle cx={cx} cy={cy} r="6" fill={color || '#64748b'} />
-      <circle cx={cx} cy={cy} r="3" fill="white" />
+      {/* Needle and Center Dot */}
+      <motion.g
+        initial={{ rotate: 0 }}
+        animate={{ rotate: angle }}
+        transition={{ type: 'spring', stiffness: 50, damping: 15, delay: 0.3 }}
+        style={{ transformOrigin: `${cx}px ${cy}px` }}
+      >
+        <line x1={cx} y1={cy} x2={cx - radius * 0.75} y2={cy} stroke={color || '#64748b'} strokeWidth="3" strokeLinecap="round" />
+        <circle cx={cx} cy={cy} r="6" fill={color || '#64748b'} />
+        <circle cx={cx} cy={cy} r="3" fill="white" />
+      </motion.g>
       
       {/* BMI Value */}
-      <text x={cx} y={cy + 2} textAnchor="middle" fill="var(--text)" fontSize="10" fontWeight="bold" dy="-20">{bmi || '--'}</text>
+      <motion.text 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 1 }}
+        x={cx} y={cy + 2} textAnchor="middle" fill="var(--text)" fontSize="10" fontWeight="bold" dy="-20"
+      >
+        {bmi || '--'}
+      </motion.text>
       
       {/* Labels */}
       <text x="20" y="115" textAnchor="start" fill="var(--text-muted)" fontSize="7">15</text>

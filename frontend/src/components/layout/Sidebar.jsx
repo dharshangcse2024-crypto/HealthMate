@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import { 
   HeartPulse, 
@@ -26,20 +27,35 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
   const isActive = (path) => location.pathname === path;
 
-  const NavItem = ({ to, icon: Icon, label }) => (
-    <Link 
-      to={to} 
-      onClick={() => setIsOpen(false)}
-      className={`flex items-center gap-3 px-4 py-3 rounded-xl mb-1 transition-all duration-300 font-medium ${
-        isActive(to) 
-          ? 'bg-gradient-to-r from-[#D97706] to-[#FCD34D] text-white shadow-md' 
-          : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
-      }`}
-    >
-      <Icon size={20} className={isActive(to) ? 'text-white' : 'text-slate-400'} />
-      <span>{label}</span>
-    </Link>
-  );
+  const NavItem = ({ to, icon: Icon, label }) => {
+    const active = isActive(to);
+    return (
+      <Link 
+        to={to} 
+        onClick={() => setIsOpen(false)}
+        className={`relative flex items-center px-4 py-3 rounded-xl mb-1 transition-colors duration-300 font-medium overflow-hidden ${
+          active ? 'text-white shadow-md' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+        }`}
+      >
+        {active && (
+          <motion.div
+            layoutId="activeNav"
+            className="absolute inset-0 bg-gradient-to-r from-[#D97706] to-[#FCD34D] rounded-xl z-0"
+            initial={false}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          />
+        )}
+        <motion.div 
+          className="relative z-10 flex items-center gap-3 w-full"
+          whileHover={{ x: 4 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        >
+          <Icon size={20} className={active ? 'text-white' : 'text-slate-400'} />
+          <span>{label}</span>
+        </motion.div>
+      </Link>
+    );
+  };
 
   return (
     <>
@@ -48,8 +64,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         className={`fixed inset-0 bg-black/40 z-30 lg:hidden transition-opacity ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setIsOpen(false)}
       />
-      <aside 
-        className={`fixed lg:sticky top-0 lg:top-4 left-0 h-[calc(100vh-2rem)] w-[280px] bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col z-40 transition-transform duration-300 ease-in-out lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:ml-4 lg:mr-0'}`}
+      <motion.aside 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className={`fixed lg:sticky top-0 lg:top-4 left-0 h-[calc(100vh-2rem)] w-[280px] bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col z-40 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:ml-4 lg:mr-0'} transition-transform lg:transition-none duration-300 ease-in-out`}
         style={window.innerWidth >= 1024 ? { margin: '1rem', marginRight: '0' } : {}}
       >
         {/* Brand */}
@@ -101,7 +120,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </button>
         </div>
       )}
-    </aside>
+    </motion.aside>
     </>
   );
 };
