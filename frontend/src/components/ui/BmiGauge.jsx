@@ -16,14 +16,14 @@ const BmiGauge = ({ bmi, category, color }) => {
   return (
     <svg viewBox="0 0 200 120" style={{ width: '100%', maxWidth: '220px' }}>
       {/* Background arc segments */}
-      {/* Underweight: 0-36deg (blue) */}
-      <path d="M 20 100 A 80 80 0 0 1 42.9 39.5" fill="none" stroke="#93c5fd" strokeWidth="12" strokeLinecap="round" />
-      {/* Normal: 36-72deg (green) */}
-      <path d="M 42.9 39.5 A 80 80 0 0 1 100 20" fill="none" stroke="#86efac" strokeWidth="12" strokeLinecap="round" />
-      {/* Overweight: 72-108deg (yellow) */}
-      <path d="M 100 20 A 80 80 0 0 1 157.1 39.5" fill="none" stroke="#fde68a" strokeWidth="12" strokeLinecap="round" />
-      {/* Obese: 108-180deg (red) */}
-      <path d="M 157.1 39.5 A 80 80 0 0 1 180 100" fill="none" stroke="#fca5a5" strokeWidth="12" strokeLinecap="round" />
+      {/* Underweight: 0-36deg (info) */}
+      <path d="M 20 100 A 80 80 0 0 1 42.9 39.5" fill="none" stroke="var(--info)" strokeWidth="12" strokeLinecap="round" opacity="0.6" />
+      {/* Normal: 36-72deg (success/amber) */}
+      <path d="M 42.9 39.5 A 80 80 0 0 1 100 20" fill="none" stroke="var(--success)" strokeWidth="12" strokeLinecap="round" opacity="0.6" />
+      {/* Overweight: 72-108deg (warning/orange) */}
+      <path d="M 100 20 A 80 80 0 0 1 157.1 39.5" fill="none" stroke="var(--warning)" strokeWidth="12" strokeLinecap="round" opacity="0.6" />
+      {/* Obese: 108-180deg (error/red) */}
+      <path d="M 157.1 39.5 A 80 80 0 0 1 180 100" fill="none" stroke="var(--error)" strokeWidth="12" strokeLinecap="round" opacity="0.6" />
       
       {/* Needle */}
       <line x1={cx} y1={cy} x2={cx - radius * 0.75} y2={cy} stroke={color || '#64748b'} strokeWidth="3" strokeLinecap="round">

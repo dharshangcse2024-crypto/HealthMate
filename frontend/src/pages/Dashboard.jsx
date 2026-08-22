@@ -86,13 +86,13 @@ const Dashboard = () => {
         const bmiValue = w / (h * h);
         setBmi(bmiValue.toFixed(1));
         if (bmiValue < 18.5) {
-          setBmiCategory({ label: 'Underweight', color: '#3b82f6' });
-        } else if (bmiValue <= 24.9) {
-          setBmiCategory({ label: 'Normal', color: '#22c55e' });
-        } else if (bmiValue <= 29.9) {
-          setBmiCategory({ label: 'Overweight', color: '#f59e0b' });
+          setBmiCategory({ label: 'Underweight', color: 'var(--info)' });
+        } else if (bmiValue < 25) {
+          setBmiCategory({ label: 'Normal', color: 'var(--success)' });
+        } else if (bmiValue < 30) {
+          setBmiCategory({ label: 'Overweight', color: 'var(--warning)' });
         } else {
-          setBmiCategory({ label: 'Obese', color: '#ef4444' });
+          setBmiCategory({ label: 'Obese', color: 'var(--error)' });
         }
         return;
       }
