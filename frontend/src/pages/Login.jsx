@@ -63,9 +63,8 @@ const Login = () => {
         {/* Left Side (Purple Theme) */}
         <div className="login-left" style={{ 
           flex: 1, 
-          backgroundColor: '#9333ea', 
-          background: 'radial-gradient(circle at 30% 20%, #6b21a8 0%, #9333ea 50%, #c084fc 100%)',
-          color: 'white',
+          backgroundColor: '#fcd34d', 
+          color: '#1a1a1a',
           padding: '3rem',
           display: 'flex',
           flexDirection: 'column',

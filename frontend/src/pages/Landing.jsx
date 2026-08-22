@@ -28,7 +28,7 @@ const CharacterV1 = ({ char, index, centerIndex, scrollYProgress }) => {
 
   return (
     <motion.span
-      className={cn("inline-block text-white", isSpace && "w-4")}
+      className={cn("inline-block text-black", isSpace && "w-4")}
       style={{ x, rotateX }}
     >
       {char}
@@ -103,10 +103,9 @@ const Landing = () => {
     <ReactLenis root>
       <div style={{ 
         minHeight: '100vh', 
-        backgroundColor: '#9333ea', /* Fallback */
-        background: 'radial-gradient(circle at 30% 20%, #6b21a8 0%, #9333ea 50%, #c084fc 100%)',
+        backgroundColor: '#fcd34d',
         fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-        color: '#ffffff',
+        color: '#1a1a1a',
         display: 'flex',
         flexDirection: 'column',
       }}>
@@ -131,7 +130,7 @@ const Landing = () => {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-            <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>LOG IN</Link>
+            <Link to="/login" style={{ color: '#1a1a1a', textDecoration: 'none' }}>LOG IN</Link>
             <Link to="/register" style={{ textDecoration: 'none' }}>
               <button style={{
                 backgroundColor: 'white',
@@ -151,7 +150,7 @@ const Landing = () => {
         </nav>
 
         <main className="w-full flex flex-col items-center pt-24">
-          <div className="top-22 absolute left-1/2 z-10 grid -translate-x-1/2 content-start justify-items-center gap-6 text-center text-white mt-10">
+          <div className="top-22 absolute left-1/2 z-10 grid -translate-x-1/2 content-start justify-items-center gap-6 text-center text-black mt-10">
             <span className="relative max-w-[12ch] text-xs uppercase leading-tight opacity-80 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:from-[#f5f4f3] after:to-transparent after:content-['']">
               Scroll to see more
             </span>
@@ -162,7 +161,7 @@ const Landing = () => {
             className="relative box-border flex h-[210vh] items-center justify-center gap-[2vw] overflow-hidden p-[2vw]"
           >
             <div
-              className="font-geist w-full max-w-[100vw] flex flex-col text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white whitespace-nowrap"
+              className="font-geist w-full max-w-[100vw] flex flex-col text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-black whitespace-nowrap"
               style={{ perspective: "500px" }}
             >
               <div>
@@ -194,14 +193,14 @@ const Landing = () => {
             ref={targetRef2}
             className="relative -mt-[100vh] box-border flex h-[210vh] flex-col items-center justify-center gap-[2vw] overflow-hidden p-[2vw]"
           >
-            <p className="font-geist flex items-center justify-center gap-3 text-xl md:text-3xl font-medium tracking-tight text-white mb-8">
-              <Bracket className="h-12 text-white fill-white" />
+            <p className="font-geist flex items-center justify-center gap-3 text-xl md:text-3xl font-medium tracking-tight text-black mb-8">
+              <Bracket className="h-12 text-black fill-white" />
               <span className="font-geist font-medium">
                 seamless health tracking
               </span>
-              <Bracket className="h-12 scale-x-[-1] text-white fill-white" />
+              <Bracket className="h-12 scale-x-[-1] text-black fill-white" />
             </p>
-            <div className="font-geist w-full max-w-[100vw] text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white whitespace-nowrap">
+            <div className="font-geist w-full max-w-[100vw] text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-black whitespace-nowrap">
               {iconCharsArray.map((char, index) => (
                 <CharacterV2
                   key={index}
@@ -218,15 +217,15 @@ const Landing = () => {
             ref={targetRef3}
             className="relative -mt-[95vh] box-border flex h-[210vh] flex-col items-center justify-center gap-[2vw] overflow-hidden p-[2vw]"
           >
-            <p className="font-geist flex items-center justify-center gap-3 text-xl md:text-3xl font-medium tracking-tight text-white mb-8">
-              <Bracket className="h-12 text-white fill-white" />
+            <p className="font-geist flex items-center justify-center gap-3 text-xl md:text-3xl font-medium tracking-tight text-black mb-8">
+              <Bracket className="h-12 text-black fill-white" />
               <span className="font-geist font-medium">
                 get started
               </span>
-              <Bracket className="h-12 scale-x-[-1] text-white fill-white" />
+              <Bracket className="h-12 scale-x-[-1] text-black fill-white" />
             </p>
             <div
-              className="font-geist w-full max-w-[100vw] text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-white whitespace-nowrap"
+              className="font-geist w-full max-w-[100vw] text-center text-5xl md:text-7xl font-bold uppercase tracking-tighter text-black whitespace-nowrap"
               style={{ perspective: "500px" }}
             >
               {iconCharsArray.map((char, index) => (
