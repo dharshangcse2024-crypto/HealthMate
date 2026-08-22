@@ -57,8 +57,9 @@ const ReminderNotification = () => {
         const diffMs = now.getTime() - reminderDate.getTime();
         const diffMinutes = diffMs / 60000;
         
-        // Check if the current time is within 2 minutes of the reminder time
-        if (diffMinutes < 0 || diffMinutes >= 2) return false;
+        // Check if the reminder is within the last 60 minutes
+        // This ensures that if the device goes to sleep and wakes up, we still show the notification
+        if (diffMinutes < 0 || diffMinutes > 60) return false;
         
         // Skip if we already notified for this exact reminder and minute (using the reminder's exact time as the key)
         if (notifiedMap[`${r.id}-${r.reminder_time}`]) return false;
