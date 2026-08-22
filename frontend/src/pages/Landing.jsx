@@ -15,10 +15,67 @@
 
 import { Link } from 'react-router-dom';
 import { Activity } from 'lucide-react';
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import ReactLenis from "lenis/react";
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { cn } from "../lib/utils";
+
+const SPRING = {
+  mass: 0.1,
+  damping: 10,
+  stiffness: 131,
+};
+
+const GlobalSpringCursor = () => {
+  const xSpring = useSpring(0, SPRING);
+  const ySpring = useSpring(0, SPRING);
+  const opacitySpring = useSpring(0, SPRING);
+  const scaleSpring = useSpring(0, SPRING);
+
+  useEffect(() => {
+    // Initial reveal
+    opacitySpring.set(1);
+    scaleSpring.set(1);
+
+    const handlePointerMove = (e) => {
+      // center the 40px cursor
+      xSpring.set(e.clientX - 20);
+      ySpring.set(e.clientY - 20);
+    };
+
+    const handlePointerLeave = () => {
+      opacitySpring.set(0);
+      scaleSpring.set(0);
+    };
+
+    const handlePointerEnter = () => {
+      opacitySpring.set(1);
+      scaleSpring.set(1);
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    document.addEventListener("mouseleave", handlePointerLeave);
+    document.addEventListener("mouseenter", handlePointerEnter);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("mouseleave", handlePointerLeave);
+      document.removeEventListener("mouseenter", handlePointerEnter);
+    };
+  }, [xSpring, ySpring, opacitySpring, scaleSpring]);
+
+  return (
+    <motion.div
+      style={{
+        x: xSpring,
+        y: ySpring,
+        opacity: opacitySpring,
+        scale: scaleSpring,
+      }}
+      className="fixed top-0 left-0 rounded-full w-10 h-10 bg-white mix-blend-difference pointer-events-none z-[9999]"
+    />
+  );
+};
 
 const CharacterV1 = ({ char, index, centerIndex, scrollYProgress }) => {
   const isSpace = char === " ";
@@ -108,7 +165,9 @@ const Landing = () => {
         color: '#1a1a1a',
         display: 'flex',
         flexDirection: 'column',
+        cursor: 'none' // Hide default cursor so custom one shows clearly
       }}>
+        <GlobalSpringCursor />
         {/* Navbar Section */}
         <nav style={{
           display: 'flex',
