@@ -18,6 +18,7 @@ import Hospitals from './pages/Hospitals';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Admin from './pages/Admin';
+import ReminderNotification from './components/ui/ReminderNotification';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 function AppContent() {
@@ -56,6 +57,9 @@ function AppContent() {
     <div className="app-layout relative min-h-screen">
       {/* Global Theme Gradient Background */}
       <div className="fixed top-0 left-0 w-full min-h-screen z-0 pointer-events-none" style={{ backgroundColor: '#f0a146' }}></div>
+      
+      {/* Global Medicine Reminder Notification */}
+      <ReminderNotification />
       
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       <div className="main-wrapper relative z-10 flex-1 flex flex-col">
