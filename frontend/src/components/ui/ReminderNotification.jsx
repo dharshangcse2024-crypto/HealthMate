@@ -3,6 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Pill, Check, X } from 'lucide-react';
 import api from '../../services/api';
 
+const getFoodInstructionLabel = (instruction) => {
+  if (instruction === 'before_food') return 'Before Food';
+  if (instruction === 'after_food') return 'After Food';
+  if (instruction === 'with_food') return 'With Food';
+  return '';
+};
+
 const ReminderNotification = () => {
   const [reminders, setReminders] = useState([]);
   const [activeNotifications, setActiveNotifications] = useState([]);
@@ -22,6 +29,12 @@ const ReminderNotification = () => {
     fetchReminders();
     // Poll for new reminders frequently so we catch newly added ones quickly
     const fetchInterval = setInterval(fetchReminders, 20 * 1000);
+    
+    // Request notification permissions for native device alerts
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+    
     return () => clearInterval(fetchInterval);
   }, []);
 
@@ -61,12 +74,20 @@ const ReminderNotification = () => {
           return next;
         });
 
-        // Add them to active notifications
           setActiveNotifications(prev => {
             const newNotifs = [...prev];
             dueReminders.forEach(due => {
               if (!newNotifs.find(n => n.id === due.id)) {
                 newNotifs.push({ ...due, timestamp: Date.now() });
+                
+                // Trigger native device notification if allowed
+                if ("Notification" in window && Notification.permission === "granted") {
+                  const foodInstruction = due.food_instruction ? ` (${getFoodInstructionLabel(due.food_instruction)})` : '';
+                  new Notification(`Time for Medication: ${due.medicine_name}`, {
+                    body: `It's time to take your ${due.medicine_name}${foodInstruction}.`,
+                    icon: '/favicon.ico'
+                  });
+                }
               }
             });
             return newNotifs;
@@ -90,11 +111,13 @@ const ReminderNotification = () => {
     }
   };
 
-  const getFoodInstructionLabel = (instruction) => {
-    if (instruction === 'before_food') return 'Before Food';
-    if (instruction === 'after_food') return 'After Food';
-    if (instruction === 'with_food') return 'With Food';
-    return '';
+  const handleMarkTaken = async (id) => {
+    try {
+      await api.post(`/extended/reminders/${id}/log`, { action: 'taken' });
+      handleDismiss(id);
+    } catch (err) {
+      console.error("Failed to mark reminder as taken", err);
+    }
   };
 
   return (
