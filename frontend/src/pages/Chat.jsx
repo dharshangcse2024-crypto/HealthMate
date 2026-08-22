@@ -327,14 +327,14 @@ const Chat = () => {
                       <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${msg.isUser ? 'bg-primary text-white' : 'bg-secondary text-primary-dark'}`}>
                         {msg.isUser ? <User size={18} className="md:w-5 md:h-5" /> : <Bot size={18} className="md:w-5 md:h-5" />}
                       </div>
-                      <div className={`flex-1 md:flex-initial leading-relaxed pt-1 md:pt-0 overflow-hidden text-sm md:text-base md:px-5 md:py-3 md:rounded-2xl md:shadow-sm md:max-w-[75%] ${msg.isUser ? 'text-foreground md:bg-primary md:text-white md:rounded-tr-none' : 'text-foreground md:bg-white md:border md:border-border md:rounded-tl-none'}`}>
+                      <div className={`flex-1 md:flex-initial leading-relaxed pt-1 md:pt-0 overflow-x-hidden break-words text-sm md:text-base md:px-5 md:py-3 md:rounded-2xl md:shadow-sm md:max-w-[75%] ${msg.isUser ? 'text-foreground md:bg-primary md:text-white md:rounded-tr-none' : 'text-foreground md:bg-white md:border md:border-border md:rounded-tl-none'}`}>
                         <ReactMarkdown
                           components={{
-                            ul: ({node, ...props}) => <ul className="list-disc pl-5 my-2" {...props} />,
-                            ol: ({node, ...props}) => <ol className="list-decimal pl-5 my-2" {...props} />,
-                            li: ({node, ...props}) => <li className="mb-1" {...props} />,
-                            p: ({node, ...props}) => <p className="m-0 whitespace-pre-wrap mb-2" {...props} />,
-                            strong: ({node, ...props}) => <strong className="font-semibold" {...props} />
+                            ul: ({node, ...props}) => <ul className="list-disc pl-5 my-2 break-words" {...props} />,
+                            ol: ({node, ...props}) => <ol className="list-decimal pl-5 my-2 break-words" {...props} />,
+                            li: ({node, ...props}) => <li className="mb-1 break-words" {...props} />,
+                            p: ({node, ...props}) => <p className="m-0 whitespace-pre-wrap break-words mb-2" {...props} />,
+                            strong: ({node, ...props}) => <strong className="font-semibold break-words" {...props} />
                           }}
                         >
                           {msg.text}
