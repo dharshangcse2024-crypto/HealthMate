@@ -323,11 +323,11 @@ const Chat = () => {
                   if (idx === 0 && !msg.isUser && msg.text.includes("Hello! I'm HealthMate")) return null;
                   
                   return (
-                    <div key={idx} className="flex gap-3 md:gap-4 mb-6 md:mb-8 w-full max-w-3xl mx-auto">
+                    <div key={idx} className={`flex gap-3 md:gap-4 mb-6 md:mb-8 w-full md:max-w-4xl mx-auto ${msg.isUser ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
                       <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${msg.isUser ? 'bg-primary text-white' : 'bg-secondary text-primary-dark'}`}>
                         {msg.isUser ? <User size={18} className="md:w-5 md:h-5" /> : <Bot size={18} className="md:w-5 md:h-5" />}
                       </div>
-                      <div className="flex-1 text-foreground leading-relaxed pt-1 md:pt-2 overflow-hidden text-sm md:text-base">
+                      <div className={`flex-1 md:flex-initial leading-relaxed pt-1 md:pt-0 overflow-hidden text-sm md:text-base md:px-5 md:py-3 md:rounded-2xl md:shadow-sm md:max-w-[75%] ${msg.isUser ? 'text-foreground md:bg-primary md:text-white md:rounded-tr-none' : 'text-foreground md:bg-white md:border md:border-border md:rounded-tl-none'}`}>
                         <ReactMarkdown
                           components={{
                             ul: ({node, ...props}) => <ul className="list-disc pl-5 my-2" {...props} />,
@@ -341,13 +341,14 @@ const Chat = () => {
                         </ReactMarkdown>
                       </div>
                     </div>
+                  );
                 })}
                 {loading && (
-                  <div className="flex gap-3 md:gap-4 mb-6 md:mb-8 w-full max-w-3xl mx-auto">
+                  <div className="flex gap-3 md:gap-4 mb-6 md:mb-8 w-full md:max-w-4xl mx-auto md:flex-row">
                     <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-secondary text-primary-dark flex items-center justify-center flex-shrink-0">
                       <Bot size={18} className="md:w-5 md:h-5" />
                     </div>
-                    <div className="flex-1 pt-1 md:pt-2">
+                    <div className="flex-1 md:flex-initial pt-1 md:pt-0 md:bg-white md:border md:border-border md:px-5 md:py-3 md:rounded-2xl md:rounded-tl-none md:shadow-sm">
                       <Loader2 className="animate-spin text-primary" size={24} />
                     </div>
                   </div>
@@ -355,23 +356,36 @@ const Chat = () => {
                 <div ref={messagesEndRef} />
               </div>
               
-              <div className="p-3 md:p-4 bg-background mt-auto flex-shrink-0">
-                <form onSubmit={handleSend} className="flex items-center bg-[#2f2f2f] rounded-full overflow-hidden p-1 shadow-md w-full max-w-4xl mx-auto">
-                  <div className="pl-3 pr-1 text-gray-400">
+              <div className="p-3 md:p-6 lg:p-8 bg-background mt-auto flex-shrink-0 md:border-t md:border-border">
+                <form onSubmit={handleSend} className="flex items-center w-full max-w-4xl mx-auto bg-[#2f2f2f] md:bg-transparent rounded-full md:rounded-none overflow-hidden md:overflow-visible p-1 md:p-0 shadow-md md:shadow-none md:gap-4">
+                  
+                  {/* Mobile plus icon */}
+                  <div className="pl-3 pr-1 text-gray-400 md:hidden">
                     <Plus size={24} />
                   </div>
-                  <input
-                    type="text"
-                    className="flex-1 border-none bg-transparent px-2 py-3 text-base outline-none text-white w-full placeholder-gray-400"
-                    placeholder="Ask anything"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    disabled={loading}
-                  />
-                  <div className="pr-1 flex items-center gap-1">
-                    <button type="submit" disabled={loading || !input.trim()} className={`p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white cursor-pointer hover:bg-blue-600'}`}>
+
+                  <div className="flex-1 md:bg-surface md:border md:border-border md:rounded-2xl md:flex md:items-center md:px-2 md:focus-within:border-primary md:focus-within:shadow-md transition-all">
+                    <input
+                      type="text"
+                      className="border-none bg-transparent px-2 py-3 md:py-3.5 text-base outline-none text-white md:text-foreground w-full placeholder-gray-400 md:placeholder-muted-foreground"
+                      placeholder="Ask anything..."
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      disabled={loading}
+                    />
+                  </div>
+
+                  {/* Submit button wrapper */}
+                  <div className="pr-1 md:pr-0 flex items-center gap-1 md:flex-shrink-0">
+                    {/* Mobile submit button */}
+                    <button type="submit" disabled={loading || !input.trim()} className={`md:hidden p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white cursor-pointer hover:bg-blue-600'}`}>
                       {loading ? <Loader2 className="animate-spin" size={20} /> : <Activity size={20} className="rotate-90" />}
                     </button>
+
+                    {/* Desktop submit button */}
+                    <Button type="submit" disabled={loading || !input.trim()} icon={Send} className="hidden md:flex px-6 py-3.5">
+                      Send
+                    </Button>
                   </div>
                 </form>
               </div>
