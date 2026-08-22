@@ -196,21 +196,16 @@ const Dashboard = () => {
         <Button onClick={handleConsent} style={{ width: '100%' }}>I Agree and Understand</Button>
       </Modal>
 
-      {/* Welcome Header */}
-      <div className="animate-fadeIn mb-10 mt-4">
-        <div>
-          <h1 className="text-4xl text-white font-bold mb-2 tracking-wide">
-            Welcome back, {user?.name?.split(' ')[0] || 'User'}! 👋
-          </h1>
-          <p className="text-white/80 text-lg font-medium">Here's your health overview for today.</p>
-        </div>
+      <div className="mb-6 md:mb-8 w-full text-white">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2">Welcome back, {user?.name?.split(' ')[0] || 'User'}! 👋</h1>
+        <p className="text-white/90 text-sm md:text-base">Here's your health overview for today.</p>
       </div>
 
-      {/* Top Row: BMI Card + SOS */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 w-full">
+      {/* Top Cards Row */}
+      <div className="flex flex-row overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-2 gap-4 md:gap-6 w-full mb-8 pb-4 md:pb-0 hide-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
         
         {/* BMI Health Status Card */}
-        <Card className="p-4 md:p-8 w-full">
+        <Card className="min-w-[85vw] sm:min-w-[400px] md:min-w-0 snap-center shrink-0 p-4 md:p-8 w-full">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
             <div className="flex items-center gap-3">
               <div style={{ padding: '0.5rem', backgroundColor: 'var(--secondary)', borderRadius: '0.5rem', color: 'var(--primary)' }}>
@@ -280,17 +275,22 @@ const Dashboard = () => {
         </Card>
 
         {/* SOS Emergency Card */}
-        <SOSButton />
+        <div className="min-w-[85vw] sm:min-w-[300px] md:min-w-0 snap-center shrink-0">
+          <SOSButton />
+        </div>
       </div>
 
-      {/* Quick Actions */}
-      <h3 className="text-lg md:text-xl mb-4 text-foreground font-semibold">Quick Actions</h3>
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-        className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4 mb-8 w-full"
-      >
+      {/* Main Bottom Section Wrapper */}
+      <div className="bg-[#FFFBEB] dark:bg-background rounded-t-3xl pt-6 px-4 md:px-0 -mx-4 md:mx-0 w-[calc(100%+2rem)] md:w-full flex-1 min-h-screen">
+        
+        {/* Quick Actions */}
+        <h3 className="text-lg md:text-xl mb-4 text-foreground font-semibold px-2 md:px-0">Quick Actions</h3>
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4 mb-8 w-full px-2 md:px-0"
+        >
         {[
           { to: '/symptom-checker', icon: Stethoscope, label: 'Symptom Checker', desc: 'Check your symptoms', bg: 'var(--secondary-light)', color: 'var(--primary)' },
           { to: '/chat', icon: Bot, label: 'AI Chatbot', desc: 'Ask health questions', bg: '#f0f9ff', color: 'var(--primary-dark)' },
@@ -314,30 +314,31 @@ const Dashboard = () => {
       </motion.div>
 
       {/* Recent Activity — Real Data */}
-      <div className="flex justify-between items-center mb-4 w-full">
-        <h3 className="text-lg md:text-xl m-0 font-semibold">Recent Activity</h3>
-        <Link to="/history" className="text-sm font-medium flex items-center">View All <ChevronRight size={14} /></Link>
+      <div className="flex justify-between items-center mb-4 w-full px-2 md:px-0 mt-4">
+        <h3 className="text-lg md:text-xl m-0 font-semibold text-foreground">Recent Activity</h3>
+        <Link to="/history" className="text-sm font-medium flex items-center text-primary">View All <ChevronRight size={14} /></Link>
       </div>
 
-      {activityLoading ? (
-        <Card style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>
-          <Loader2 className="animate-spin" size={24} style={{ color: 'var(--primary)' }} />
-        </Card>
-      ) : recentActivity.length === 0 ? (
-        <Card className="animate-fadeIn" style={{ textAlign: 'center', padding: '3rem 2rem', color: 'var(--text-muted)' }}>
-          <Clock size={40} style={{ opacity: 0.4, margin: '0 auto 1rem' }} />
-          <h4 style={{ fontSize: '1.25rem', color: 'var(--text)', marginBottom: '0.5rem' }}>No activity yet</h4>
-          <p style={{ fontSize: '0.95rem' }}>Your symptom checks and AI consultations will securely appear here.</p>
-        </Card>
-      ) : (
-        <Card style={{ padding: 0 }}>
-          <AnimatePresence initial={false}>
-            {recentActivity.map((record, idx) => (
-              <motion.div 
-                key={record.id} 
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
+      <div className="px-2 md:px-0 mb-8">
+        {activityLoading ? (
+          <Card style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>
+            <Loader2 className="animate-spin" size={24} style={{ color: 'var(--primary)' }} />
+          </Card>
+        ) : recentActivity.length === 0 ? (
+          <Card className="animate-fadeIn" style={{ textAlign: 'center', padding: '3rem 2rem', color: 'var(--text-muted)' }}>
+            <Clock size={40} style={{ opacity: 0.4, margin: '0 auto 1rem' }} />
+            <h4 style={{ fontSize: '1.25rem', color: 'var(--text)', marginBottom: '0.5rem' }}>No activity yet</h4>
+            <p style={{ fontSize: '0.95rem' }}>Your symptom checks and AI consultations will securely appear here.</p>
+          </Card>
+        ) : (
+          <Card style={{ padding: 0 }}>
+            <AnimatePresence initial={false}>
+              {recentActivity.map((record, idx) => (
+                <motion.div 
+                  key={record.id} 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 1.5rem', borderBottom: idx < recentActivity.length - 1 ? '1px solid var(--border)' : 'none', overflow: 'hidden' }}
               >
@@ -368,9 +369,11 @@ const Dashboard = () => {
                 </span>
               </motion.div>
             ))}
-          </AnimatePresence>
-        </Card>
-      )}
+            </AnimatePresence>
+          </Card>
+        )}
+        </div>
+      </div>
     </motion.div>
   );
 };

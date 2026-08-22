@@ -38,11 +38,11 @@ const Topbar = ({ toggleSidebar }) => {
           <Menu size={24} />
         </button>
         
-        <div className="hidden sm:flex items-center bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl px-4 py-2.5 w-full max-w-md shadow-sm transition-all focus-within:bg-white/30 focus-within:shadow-md">
-          <Search size={20} className="text-white/80" />
+        <div className="flex items-center bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl px-3 md:px-4 py-2 md:py-2.5 w-full max-w-md shadow-sm transition-all focus-within:bg-white/30 focus-within:shadow-md">
+          <Search size={18} className="text-white/80 md:w-5 md:h-5" />
           <input 
             type="text" 
-            className="bg-transparent border-none outline-none text-white placeholder-white/70 ml-3 w-full font-medium"
+            className="bg-transparent border-none outline-none text-white placeholder-white/70 ml-2 md:ml-3 w-full text-sm md:text-base font-medium"
             placeholder="Search for symptoms, medicines..." 
             onKeyDown={handleSearch}
           />
