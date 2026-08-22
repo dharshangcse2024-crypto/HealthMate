@@ -32,7 +32,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       onClick={() => setIsOpen(false)}
       className={`flex items-center gap-3 px-4 py-3 rounded-xl mb-1 transition-all duration-300 font-medium ${
         isActive(to) 
-          ? 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-md' 
+          ? 'bg-gradient-to-r from-[#D97706] to-[#FCD34D] text-white shadow-md' 
           : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
       }`}
     >
@@ -54,7 +54,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       >
         {/* Brand */}
       <div className="p-8 flex items-center gap-3">
-        <div className="p-2 bg-gradient-to-br from-purple-500 to-indigo-500 text-white rounded-xl shadow-sm">
+        <div className="p-2 bg-gradient-to-br from-[#D97706] to-[#FCD34D] text-white rounded-xl shadow-sm">
           <HeartPulse size={24} />
         </div>
         <div>
