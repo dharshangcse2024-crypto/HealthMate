@@ -46,12 +46,22 @@ const ReminderNotification = () => {
       
       console.log(`[ReminderNotification] Checking reminders for ${currentMinute}. Total active reminders: ${reminders.length}`);
       
-      // Find reminders that match this time
+      // Find reminders that match this time (allow a 2-minute grace period for background throttling)
       const dueReminders = reminders.filter(r => {
-        if (r.reminder_time !== currentMinute) return false;
+        if (!r.reminder_time) return false;
         
-        // Skip if we already notified for this exact reminder and minute
-        if (notifiedMap[`${r.id}-${currentMinute}`]) return false;
+        const [remHour, remMin] = r.reminder_time.split(':');
+        const reminderDate = new Date(now);
+        reminderDate.setHours(parseInt(remHour, 10), parseInt(remMin, 10), 0, 0);
+        
+        const diffMs = now.getTime() - reminderDate.getTime();
+        const diffMinutes = diffMs / 60000;
+        
+        // Check if the current time is within 2 minutes of the reminder time
+        if (diffMinutes < 0 || diffMinutes >= 2) return false;
+        
+        // Skip if we already notified for this exact reminder and minute (using the reminder's exact time as the key)
+        if (notifiedMap[`${r.id}-${r.reminder_time}`]) return false;
         
         // Check specific days if applicable
         if (r.frequency === 'specific_days' && r.days_of_week) {
@@ -65,11 +75,11 @@ const ReminderNotification = () => {
       if (dueReminders.length > 0) {
         console.log(`[ReminderNotification] Found ${dueReminders.length} due reminders!`);
         
-        // Mark as notified so it doesn't trigger again this minute
+        // Mark as notified so it doesn't trigger again for this reminder time
         setNotifiedMap(prev => {
           const next = { ...prev };
           dueReminders.forEach(d => {
-            next[`${d.id}-${currentMinute}`] = true;
+            next[`${d.id}-${d.reminder_time}`] = true;
           });
           return next;
         });
