@@ -323,58 +323,32 @@ const Chat = () => {
                   if (idx === 0 && !msg.isUser && msg.text.includes("Hello! I'm HealthMate")) return null;
                   
                   return (
-                    <div key={idx} style={{ 
-                      display: 'flex', 
-                      gap: '1rem', 
-                      marginBottom: '1.5rem',
-                      flexDirection: msg.isUser ? 'row-reverse' : 'row'
-                    }}>
-                      <div style={{ 
-                        width: '40px', height: '40px', borderRadius: '50%', 
-                        backgroundColor: msg.isUser ? 'var(--primary)' : 'var(--secondary)',
-                        color: msg.isUser ? 'white' : 'var(--primary-dark)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
-                      }}>
-                        {msg.isUser ? <User size={20} /> : <Bot size={20} />}
+                    <div key={idx} className="flex gap-3 md:gap-4 mb-6 md:mb-8 w-full max-w-3xl mx-auto">
+                      <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${msg.isUser ? 'bg-primary text-white' : 'bg-secondary text-primary-dark'}`}>
+                        {msg.isUser ? <User size={18} className="md:w-5 md:h-5" /> : <Bot size={18} className="md:w-5 md:h-5" />}
                       </div>
-                      <div style={{ 
-                        backgroundColor: msg.isUser ? 'var(--primary)' : 'white',
-                        color: msg.isUser ? 'white' : 'var(--text)',
-                        padding: '1rem 1.5rem',
-                        borderRadius: '1rem',
-                        borderTopRightRadius: msg.isUser ? '0' : '1rem',
-                        borderTopLeftRadius: msg.isUser ? '1rem' : '0',
-                        maxWidth: '75%',
-                        boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-                        border: msg.isUser ? 'none' : '1px solid var(--border)'
-                      }}>
+                      <div className="flex-1 text-foreground leading-relaxed pt-1 md:pt-2 overflow-hidden text-sm md:text-base">
                         <ReactMarkdown
                           components={{
-                            ul: ({node, ...props}) => <ul style={{ listStyleType: 'disc', paddingLeft: '1.5rem', marginTop: '0.5rem', marginBottom: '0.5rem' }} {...props} />,
-                            ol: ({node, ...props}) => <ol style={{ listStyleType: 'decimal', paddingLeft: '1.5rem', marginTop: '0.5rem', marginBottom: '0.5rem' }} {...props} />,
-                            li: ({node, ...props}) => <li style={{ marginBottom: '0.25rem' }} {...props} />,
-                            p: ({node, ...props}) => <p style={{ margin: 0, whiteSpace: 'pre-wrap', marginBottom: '0.5rem' }} {...props} />,
-                            strong: ({node, ...props}) => <strong style={{ fontWeight: 600 }} {...props} />
+                            ul: ({node, ...props}) => <ul className="list-disc pl-5 my-2" {...props} />,
+                            ol: ({node, ...props}) => <ol className="list-decimal pl-5 my-2" {...props} />,
+                            li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                            p: ({node, ...props}) => <p className="m-0 whitespace-pre-wrap mb-2" {...props} />,
+                            strong: ({node, ...props}) => <strong className="font-semibold" {...props} />
                           }}
                         >
                           {msg.text}
                         </ReactMarkdown>
                       </div>
                     </div>
-                  );
                 })}
                 {loading && (
-                  <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
-                    <div style={{ 
-                      width: '40px', height: '40px', borderRadius: '50%', 
-                      backgroundColor: 'var(--secondary)',
-                      color: 'var(--primary-dark)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
-                    }}>
-                      <Bot size={20} />
+                  <div className="flex gap-3 md:gap-4 mb-6 md:mb-8 w-full max-w-3xl mx-auto">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-secondary text-primary-dark flex items-center justify-center flex-shrink-0">
+                      <Bot size={18} className="md:w-5 md:h-5" />
                     </div>
-                    <div style={{ padding: '1rem', backgroundColor: 'white', borderRadius: '1rem', display: 'flex', alignItems: 'center', border: '1px solid var(--border)' }}>
-                      <Loader2 className="animate-spin" style={{ color: 'var(--primary)' }} />
+                    <div className="flex-1 pt-1 md:pt-2">
+                      <Loader2 className="animate-spin text-primary" size={24} />
                     </div>
                   </div>
                 )}
