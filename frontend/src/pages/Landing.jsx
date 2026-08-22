@@ -5,8 +5,8 @@ const Landing = () => {
   return (
     <div style={{ 
       minHeight: '100vh', 
-      backgroundColor: '#95b7a8', /* Fallback */
-      background: 'radial-gradient(circle at 30% 20%, #7e9c8e 0%, #a5c4b8 50%, #c1d5cb 100%)',
+      backgroundColor: '#9333ea', /* Fallback */
+      background: 'radial-gradient(circle at 30% 20%, #6b21a8 0%, #9333ea 50%, #c084fc 100%)',
       fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
       color: '#ffffff',
       display: 'flex',
@@ -108,7 +108,7 @@ const Landing = () => {
           }}>
             {/* Screen Inner */}
             <div style={{
-              backgroundColor: '#dce6df',
+              backgroundColor: '#f3e8ff',
               flex: 1,
               borderTopLeftRadius: '12px',
               borderTopRightRadius: '12px',
@@ -123,7 +123,7 @@ const Landing = () => {
                 padding: '1.5rem',
                 fontSize: '0.75rem',
                 fontWeight: 'bold',
-                color: '#1a1a1a',
+                color: '#4c1d95',
                 letterSpacing: '0.1em'
               }}>
                 <span>HOME</span>
@@ -145,7 +145,7 @@ const Landing = () => {
                 <h2 style={{
                   fontSize: '6rem',
                   fontWeight: '900',
-                  color: '#1c3f50',
+                  color: '#4c1d95',
                   lineHeight: '0.85',
                   letterSpacing: '-0.03em',
                   position: 'relative',
@@ -158,11 +158,11 @@ const Landing = () => {
                   position: 'absolute',
                   bottom: '-30px',
                   right: '25%',
-                  border: '2px solid #e14040',
+                  border: '2px solid #db2777',
                   borderRadius: '50%',
                   padding: '10px 20px',
                   transform: 'rotate(-5deg)',
-                  color: '#e14040',
+                  color: '#db2777',
                   fontWeight: 'bold',
                   fontSize: '0.9rem',
                   zIndex: 3
