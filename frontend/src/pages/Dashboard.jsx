@@ -281,7 +281,7 @@ const Dashboard = () => {
       </div>
 
       {/* Main Bottom Section Wrapper */}
-      <div className="bg-[#FFFBEB] dark:bg-background rounded-t-3xl pt-6 px-4 md:px-0 -mx-4 md:mx-0 w-[calc(100%+2rem)] md:w-full flex-1 min-h-screen">
+      <div className="bg-[#FFFBEB] dark:bg-background rounded-t-3xl pt-6 px-4 md:px-0 -mx-4 md:mx-0 md:w-full flex-1 min-h-screen">
         
         {/* Quick Actions */}
         <h3 className="text-lg md:text-xl mb-4 text-foreground font-semibold px-2 md:px-0">Quick Actions</h3>
