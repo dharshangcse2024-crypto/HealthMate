@@ -55,7 +55,7 @@ function AppContent() {
   return (
     <div className="app-layout relative min-h-screen">
       {/* Global Theme Gradient Background */}
-      <div className="fixed top-0 left-0 w-full min-h-screen bg-gradient-to-br from-[#D97706] via-[#B45309] to-[#FCD34D] z-0 opacity-30 pointer-events-none animate-gradient"></div>
+      <div className="fixed top-0 left-0 w-full min-h-screen z-0 pointer-events-none" style={{ backgroundColor: '#f0a146' }}></div>
       
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       <div className="main-wrapper relative z-10 flex-1 flex flex-col">
