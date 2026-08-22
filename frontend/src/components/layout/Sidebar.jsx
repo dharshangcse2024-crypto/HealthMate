@@ -49,7 +49,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         onClick={() => setIsOpen(false)}
       />
       <aside 
-        className={`fixed lg:static top-0 left-0 h-[calc(100vh-2rem)] w-[280px] bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col z-40 transition-transform duration-300 ease-in-out lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:m-4 lg:mr-0'}`}
+        className={`fixed lg:sticky top-0 lg:top-4 left-0 h-[calc(100vh-2rem)] w-[280px] bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col z-40 transition-transform duration-300 ease-in-out lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:ml-4 lg:mr-0'}`}
         style={window.innerWidth >= 1024 ? { margin: '1rem', marginRight: '0' } : {}}
       >
         {/* Brand */}
