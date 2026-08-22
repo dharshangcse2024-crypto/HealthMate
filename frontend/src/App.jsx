@@ -54,7 +54,7 @@ function AppContent() {
   };
 
   return (
-    <div className="app-layout relative min-h-screen">
+    <div className="relative min-h-screen flex bg-[#FFFBEB]">
       {/* Global Theme Gradient Background */}
       <div className="fixed top-0 left-0 w-full min-h-screen z-0 pointer-events-none" style={{ backgroundColor: '#f0a146' }}></div>
       
@@ -62,9 +62,9 @@ function AppContent() {
       <ReminderNotification />
       
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-      <div className="main-wrapper relative z-10 flex-1 flex flex-col">
+      <div className="relative z-10 flex-1 flex flex-col min-w-0">
         <Topbar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-        <main className="content-area flex-1">
+        <main className="p-4 md:p-6 lg:p-8 flex-1 w-full max-w-7xl mx-auto">
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/chat" element={<Chat />} />

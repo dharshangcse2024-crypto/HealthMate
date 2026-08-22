@@ -146,20 +146,20 @@ const Chat = () => {
   };
 
   return (
-    <div className="main-content" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 80px)', paddingBottom: '0' }}>
-      <div style={{ marginBottom: '1rem' }}>
-        <h1 style={{ color: 'var(--primary-dark)' }}>AI Assistant</h1>
-        <p style={{ color: 'var(--text-muted)' }}>Ask questions about symptoms, health practices, and get general guidance.</p>
+    <div className="main-content flex flex-col w-full h-[calc(100dvh-70px)] md:h-[calc(100vh-80px)] pb-0">
+      <div className="mb-2 md:mb-4 flex items-center justify-between md:justify-start gap-2 flex-shrink-0">
+        <h1 className="text-primary-dark text-xl md:text-3xl mb-0 md:mb-1 font-semibold">HealthMate Assistant</h1>
+        <p className="text-muted-foreground text-sm md:text-base hidden md:block ml-4">Ask questions about symptoms, health practices, and get general guidance.</p>
       </div>
 
-      <div style={{ display: 'flex', flex: 1, gap: '1rem', overflow: 'hidden' }}>
+      <div className="flex flex-col md:flex-row flex-1 gap-4 overflow-hidden w-full min-h-0 relative">
         
         {/* Sidebar for Chat History */}
-        <Card style={{ width: '280px', display: 'flex', flexDirection: 'column', padding: '1rem', overflow: 'hidden' }}>
-          <Button onClick={handleNewChat} icon={Plus} style={{ width: '100%', marginBottom: '1rem' }}>
+        <Card className="hidden md:flex w-[280px] flex-col p-4 overflow-hidden flex-shrink-0 h-auto border-r border-border rounded-none shadow-none bg-background">
+          <Button onClick={handleNewChat} icon={Plus} className="w-full mb-4 flex justify-center">
             New Chat
           </Button>
-          <div style={{ flex: 1, overflowY: 'auto' }}>
+          <div className="flex-1 overflow-y-auto min-h-0 pr-2">
             <h4 style={{ color: 'var(--text-muted)', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Recent Chats</h4>
             {sessionsLoading ? (
               <div style={{ textAlign: 'center', padding: '1rem' }}><Loader2 className="animate-spin" size={20} /></div>
@@ -256,68 +256,68 @@ const Chat = () => {
         </Card>
 
         {/* Main Chat Area */}
-        <Card style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: '0', backgroundColor: 'var(--background)' }}>
+        <div className="flex-1 flex flex-col overflow-hidden bg-background w-full min-h-0 relative rounded-2xl md:rounded-none">
           
           {messages.length === 1 && !currentSessionId ? (
             // EMPTY STATE
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', margin: '0 auto', width: '100%', maxWidth: '800px' }}>
-              <h2 style={{ fontSize: '2.5rem', fontWeight: 600, color: 'var(--text)', marginBottom: '3rem', textAlign: 'center' }}>
-                What's on your mind today?
-              </h2>
+            <div className="flex-1 flex flex-col items-center justify-end p-4 md:p-8 mx-auto w-full max-w-3xl overflow-y-auto">
+              <div className="flex-1 flex items-center justify-center">
+                <h2 className="text-2xl md:text-4xl font-semibold text-foreground mb-8 text-center px-4">
+                  What's on your mind?
+                </h2>
+              </div>
               
-              <div style={{ width: '100%', maxWidth: '700px', position: 'relative', margin: '0 auto 2rem auto' }}>
-                <form onSubmit={handleSend} style={{ display: 'flex', alignItems: 'center', backgroundColor: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '2rem', overflow: 'hidden', padding: '0.25rem 0.5rem', boxShadow: 'var(--shadow-md)', transition: 'border-color 0.2s, box-shadow 0.2s' }}>
+              {/* Suggestions List (stacked bottom) */}
+              <div className="flex flex-col gap-2 w-full max-w-2xl mx-auto mb-4">
+                <button 
+                  onClick={() => setInput("Can you help me check my symptoms?")} 
+                  className="flex items-center gap-4 p-3 md:p-4 rounded-xl border border-transparent hover:border-border bg-transparent hover:bg-surface cursor-pointer text-left transition-all"
+                >
+                  <div className="text-primary"><Activity size={20} /></div>
+                  <span className="text-sm md:text-base text-foreground font-medium">Check symptoms</span>
+                </button>
+                <button 
+                  onClick={() => setInput("What is the standard dosage for Ibuprofen?")} 
+                  className="flex items-center gap-4 p-3 md:p-4 rounded-xl border border-transparent hover:border-border bg-transparent hover:bg-surface cursor-pointer text-left transition-all"
+                >
+                  <div className="text-primary"><Pill size={20} /></div>
+                  <span className="text-sm md:text-base text-foreground font-medium">About a medicine</span>
+                </button>
+                <button 
+                  onClick={() => setInput("What are some good dietary habits for high blood pressure?")} 
+                  className="flex items-center gap-4 p-3 md:p-4 rounded-xl border border-transparent hover:border-border bg-transparent hover:bg-surface cursor-pointer text-left transition-all"
+                >
+                  <div className="text-primary"><Apple size={20} /></div>
+                  <span className="text-sm md:text-base text-foreground font-medium">Dietary advice</span>
+                </button>
+              </div>
+
+              <div className="w-full max-w-2xl relative mx-auto mb-2 md:mb-8">
+                <form onSubmit={handleSend} className="flex items-center bg-surface border border-border rounded-full overflow-hidden p-1 shadow-md transition-all duration-200 focus-within:border-primary focus-within:shadow-lg bg-[#2f2f2f] border-none text-white">
+                  <div className="pl-3 pr-1 text-gray-400">
+                    <Plus size={24} />
+                  </div>
                   <input
                     type="text"
-                    style={{ flex: 1, border: 'none', background: 'transparent', padding: '1rem', fontSize: '1.1rem', outline: 'none', color: 'var(--text)' }}
-                    placeholder="Ask HealthMate anything..."
+                    className="flex-1 border-none bg-transparent px-2 py-3 text-base outline-none text-white w-full placeholder-gray-400"
+                    placeholder="Ask anything"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     disabled={loading}
                   />
-                  <div style={{ paddingRight: '0.5rem' }}>
-                    <button type="submit" disabled={loading || !input.trim()} style={{ backgroundColor: (loading || !input.trim()) ? 'var(--secondary)' : 'var(--primary)', color: (loading || !input.trim()) ? 'var(--text-muted)' : 'white', border: 'none', padding: '0.75rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: (loading || !input.trim()) ? 'not-allowed' : 'pointer', transition: 'background-color 0.2s' }}>
-                      {loading ? <Loader2 className="animate-spin" size={20} /> : <Send size={20} />}
+                  <div className="pr-1 flex items-center gap-1">
+                    <button type="submit" disabled={loading || !input.trim()} className={`p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white cursor-pointer hover:bg-blue-600'}`}>
+                      {loading ? <Loader2 className="animate-spin" size={20} /> : <Activity size={20} className="rotate-90" />}
                     </button>
                   </div>
                 </form>
               </div>
-
-              {/* Suggestions Grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', width: '100%', maxWidth: '700px' }}>
-                <button 
-                  onClick={() => setInput("Can you help me check my symptoms?")} 
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', borderRadius: '1rem', border: '1px solid var(--border)', backgroundColor: 'var(--surface)', cursor: 'pointer', textAlign: 'left', transition: 'background-color 0.2s' }}
-                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--secondary-light)'}
-                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--surface)'}
-                >
-                  <div style={{ color: 'var(--primary)' }}><Activity size={20} /></div>
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Check symptoms</span>
-                </button>
-                <button 
-                  onClick={() => setInput("What is the standard dosage for Ibuprofen?")} 
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', borderRadius: '1rem', border: '1px solid var(--border)', backgroundColor: 'var(--surface)', cursor: 'pointer', textAlign: 'left', transition: 'background-color 0.2s' }}
-                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--secondary-light)'}
-                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--surface)'}
-                >
-                  <div style={{ color: 'var(--primary)' }}><Pill size={20} /></div>
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>About a medicine</span>
-                </button>
-                <button 
-                  onClick={() => setInput("What are some good dietary habits for high blood pressure?")} 
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', borderRadius: '1rem', border: '1px solid var(--border)', backgroundColor: 'var(--surface)', cursor: 'pointer', textAlign: 'left', transition: 'background-color 0.2s' }}
-                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--secondary-light)'}
-                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--surface)'}
-                >
-                  <div style={{ color: 'var(--primary)' }}><Apple size={20} /></div>
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Dietary advice</span>
-                </button>
-              </div>
+            </div>
             </div>
           ) : (
             // ACTIVE CHAT STATE
             <>
-              <div style={{ flex: 1, overflowY: 'auto', padding: '2rem' }}>
+              <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
                 {messages.map((msg, idx) => {
                   // Skip the default first message if we are in an active chat
                   if (idx === 0 && !msg.isUser && msg.text.includes("Hello! I'm HealthMate")) return null;
@@ -381,25 +381,29 @@ const Chat = () => {
                 <div ref={messagesEndRef} />
               </div>
               
-              <div style={{ padding: '1.5rem', backgroundColor: 'var(--background)', borderTop: '1px solid var(--border)' }}>
-                <form onSubmit={handleSend} style={{ display: 'flex', gap: '1rem', alignItems: 'center', maxWidth: '900px', margin: '0 auto' }}>
-                  <Input 
-                    type="text" 
-                    containerStyle={{ flex: 1, margin: 0 }}
-                    placeholder="Ask me about a symptom or health concern..."
+              <div className="p-3 md:p-4 bg-background mt-auto flex-shrink-0">
+                <form onSubmit={handleSend} className="flex items-center bg-[#2f2f2f] rounded-full overflow-hidden p-1 shadow-md w-full max-w-4xl mx-auto">
+                  <div className="pl-3 pr-1 text-gray-400">
+                    <Plus size={24} />
+                  </div>
+                  <input
+                    type="text"
+                    className="flex-1 border-none bg-transparent px-2 py-3 text-base outline-none text-white w-full placeholder-gray-400"
+                    placeholder="Ask anything"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     disabled={loading}
-                    style={{ paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
                   />
-                  <Button type="submit" disabled={loading || !input.trim()} icon={Send}>
-                    Send
-                  </Button>
+                  <div className="pr-1 flex items-center gap-1">
+                    <button type="submit" disabled={loading || !input.trim()} className={`p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white cursor-pointer hover:bg-blue-600'}`}>
+                      {loading ? <Loader2 className="animate-spin" size={20} /> : <Activity size={20} className="rotate-90" />}
+                    </button>
+                  </div>
                 </form>
               </div>
             </>
           )}
-        </Card>
+        </div>
 
       </div>
     </div>

@@ -58,41 +58,41 @@ const DrugInteraction = () => {
   };
 
   return (
-    <div className="main-content">
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ color: 'var(--primary-dark)' }}>Drug Interaction Checker</h1>
-        <p style={{ color: 'var(--text-muted)' }}>Enter two or more medicines to check for known interactions.</p>
+    <div className="main-content w-full">
+      <div className="mb-6 md:mb-8 text-center md:text-left">
+        <h1 className="text-primary-dark text-3xl md:text-4xl mb-2">Drug Interaction Checker</h1>
+        <p className="text-muted-foreground">Enter two or more medicines to check for known interactions.</p>
       </div>
 
-      <Card style={{ marginBottom: '2rem' }}>
-        <h3 style={{ marginBottom: '1rem' }}>Add Medicines (Max 5)</h3>
+      <Card className="mb-6 md:mb-8 p-4 md:p-6 w-full max-w-3xl mx-auto md:mx-0">
+        <h3 className="mb-4 text-xl font-semibold">Add Medicines (Max 5)</h3>
         
-        <form onSubmit={handleAddMed} style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', maxWidth: '400px' }}>
+        <form onSubmit={handleAddMed} className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-6 w-full max-w-md">
           <Input 
             type="text" 
             placeholder="Type a medicine (e.g. Aspirin)" 
             value={customMed}
             onChange={(e) => setCustomMed(e.target.value)}
             disabled={selected.length >= 5}
-            containerStyle={{ flex: 1, margin: 0 }}
+            className="flex-1 m-0"
             style={{ paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
           />
-          <Button type="submit" disabled={selected.length >= 5} icon={Plus}>
+          <Button type="submit" disabled={selected.length >= 5} icon={Plus} className="w-full sm:w-auto flex justify-center py-3 sm:py-0">
             Add
           </Button>
         </form>
 
         {selected.length > 0 && (
-          <div style={{ marginBottom: '2rem', padding: '1rem', backgroundColor: 'var(--secondary-light)', borderRadius: '0.5rem' }}>
-            <h4 style={{ fontSize: '0.875rem', color: 'var(--primary-dark)', marginBottom: '0.75rem' }}>Selected Medicines:</h4>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+          <div className="mb-6 p-4 bg-secondary-light rounded-lg">
+            <h4 className="text-sm font-semibold text-primary-dark mb-3">Selected Medicines:</h4>
+            <div className="flex flex-wrap gap-2">
               {selected.map(med => (
-                <div key={med} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', backgroundColor: 'var(--primary)', color: 'white', padding: '0.25rem 0.5rem 0.25rem 0.75rem', borderRadius: '2rem', fontSize: '0.875rem' }}>
+                <div key={med} className="flex items-center gap-1 bg-primary text-white py-1 pl-3 pr-2 rounded-full text-sm">
                   {med}
                   <button 
                     onClick={() => removeMed(med)}
                     type="button"
-                    style={{ background: 'none', border: 'none', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.1rem', borderRadius: '50%', cursor: 'pointer', marginLeft: '0.25rem' }}
+                    className="bg-transparent border-none text-white flex items-center justify-center p-0.5 rounded-full cursor-pointer ml-1 hover:bg-white/20 transition-colors"
                   >
                     <X size={14} />
                   </button>
@@ -108,13 +108,14 @@ const DrugInteraction = () => {
           loading={loading}
           type="button"
           icon={Activity}
+          className="w-full sm:w-auto flex justify-center"
         >
           Check Interactions
         </Button>
       </Card>
 
       {result && result.checked && (
-        <Card style={{ borderLeft: result.interactions.length > 0 ? '4px solid var(--error)' : '4px solid var(--success)', animation: 'fadeIn 0.5s ease-out' }}>
+        <Card className={`p-4 md:p-6 w-full max-w-3xl mx-auto md:mx-0 border-l-4 ${result.interactions.length > 0 ? 'border-red-500' : 'border-green-500'} animate-fadeIn`}>
           {result.interactions.length > 0 ? (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--error)', marginBottom: '1rem' }}>

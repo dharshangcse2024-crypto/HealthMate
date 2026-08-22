@@ -116,17 +116,17 @@ const Medicines = () => {
   }, []);
 
   return (
-    <div className="main-content">
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ color: 'var(--primary-dark)' }}>Medicine Information</h1>
-        <p style={{ color: 'var(--text-muted)' }}>Search for general uses, categories, and precautions of common medicines.</p>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontStyle: 'italic', marginTop: '0.25rem' }}>
+    <div className="main-content w-full">
+      <div className="mb-6 md:mb-8 text-center md:text-left">
+        <h1 className="text-3xl md:text-4xl text-primary-dark mb-2">Medicine Information</h1>
+        <p className="text-muted-foreground">Search for general uses, categories, and precautions of common medicines.</p>
+        <p className="text-muted-foreground text-xs italic mt-2">
           This information is for general reference only and does not constitute medical advice. Always consult a healthcare professional.
         </p>
       </div>
 
-      <Card style={{ marginBottom: '2rem' }}>
-        <div style={{ width: '100%', maxWidth: '600px' }}>
+      <Card className="mb-6 md:mb-8 p-4 w-full">
+        <div className="w-full max-w-2xl mx-auto md:mx-0">
           <Input 
             type="text" 
             placeholder="Search by medicine name or use..." 
@@ -157,18 +157,18 @@ const Medicines = () => {
 
       {/* Results grid */}
       {!loading && !error && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 w-full">
           {medicines.map(med => (
             <Card 
               key={med.id} 
-              style={{ display: 'flex', flexDirection: 'column', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s' }}
+              className="flex flex-col cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg p-4 h-full"
               onClick={() => handleCardClick(med)}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                <div style={{ padding: '0.75rem', backgroundColor: 'var(--secondary)', color: 'var(--primary)', borderRadius: '0.5rem' }}>
+              <div className="flex items-start gap-3 md:gap-4 mb-4">
+                <div className="p-3 bg-secondary text-primary rounded-lg flex-shrink-0">
                   <Pill size={24} />
                 </div>
-                <div style={{ flex: 1 }}>
+                <div className="flex-1 min-w-0">
                   <h3 style={{ margin: 0, fontSize: '1.125rem', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
                     {med.name}
                     {med.is_discontinued && (

@@ -107,26 +107,26 @@ const MedicineReminders = () => {
   };
 
   return (
-    <div className="main-content">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+    <div className="main-content w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 gap-4 sm:gap-0">
         <div>
-          <h1 style={{ color: 'var(--primary-dark)' }}>Medicine Reminders</h1>
-          <p style={{ color: 'var(--text-muted)' }}>Keep track of your medication schedule.</p>
+          <h1 className="text-primary-dark text-3xl md:text-4xl mb-2">Medicine Reminders</h1>
+          <p className="text-muted-foreground">Keep track of your medication schedule.</p>
         </div>
-        <Button onClick={() => setFormOpen(!formOpen)} icon={Plus}>
+        <Button onClick={() => setFormOpen(!formOpen)} icon={Plus} className="w-full sm:w-auto flex justify-center">
           Add Reminder
         </Button>
       </div>
 
       {formOpen && (
-        <Card style={{ marginBottom: '2rem', backgroundColor: 'var(--secondary-light)', border: '1px solid var(--primary-light)' }}>
-          <h3 style={{ marginBottom: '1rem' }}>New Reminder</h3>
+        <Card className="mb-8 bg-amber-50 border border-amber-200 p-4 md:p-6 w-full">
+          <h3 className="mb-4 text-xl font-semibold">New Reminder</h3>
           {errorMsg && (
-            <div style={{ marginBottom: '1rem', padding: '0.75rem', backgroundColor: '#fee2e2', color: '#b91c1c', borderRadius: '0.5rem', fontSize: '0.875rem' }}>
+            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
               {errorMsg}
             </div>
           )}
-          <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', alignItems: 'start' }}>
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start w-full">
             
             <Input 
               label="Medicine Name"
@@ -216,7 +216,7 @@ const MedicineReminders = () => {
           <p>Click the add button above to schedule your first medicine reminder.</p>
         </Card>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 w-full">
           {reminders.filter(r => r.status === 'active').map(reminder => (
             <Card key={reminder.id} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
               <div style={{ padding: '1rem', backgroundColor: 'var(--secondary)', color: 'var(--primary)', borderRadius: '50%' }}>

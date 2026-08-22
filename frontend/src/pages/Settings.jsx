@@ -85,11 +85,11 @@ const Settings = () => {
   };
 
   return (
-    <div className="main-content" style={{ padding: '2rem' }}>
-      <div style={{ margin: '0 auto', width: '100%', maxWidth: '800px' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{ color: 'var(--primary-dark)' }}>Settings</h1>
-          <p style={{ color: 'var(--text-muted)' }}>Manage your application preferences.</p>
+    <div className="main-content w-full">
+      <div className="mx-auto w-full max-w-3xl">
+        <div className="mb-6 md:mb-8 text-center md:text-left">
+          <h1 className="text-primary-dark text-3xl md:text-4xl mb-2">Settings</h1>
+          <p className="text-muted-foreground">Manage your application preferences.</p>
         </div>
 
       {feedbackMsg.text && (
@@ -98,10 +98,10 @@ const Settings = () => {
         </div>
       )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div className="flex flex-col gap-6 w-full">
         
-        <Card>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+        <Card className="p-4 md:p-8">
+          <div className="flex items-center gap-4 mb-6">
             <div style={{ padding: '0.75rem', backgroundColor: 'var(--info-bg)', color: 'var(--info)', borderRadius: '0.5rem' }}>
               <Bell size={24} />
             </div>
@@ -123,8 +123,8 @@ const Settings = () => {
           </div>
         </Card>
 
-        <Card>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+        <Card className="p-4 md:p-8">
+          <div className="flex items-center gap-4 mb-6">
             <div style={{ padding: '0.75rem', backgroundColor: 'var(--success-bg)', color: 'var(--success)', borderRadius: '0.5rem' }}>
               <Shield size={24} />
             </div>
@@ -140,8 +140,8 @@ const Settings = () => {
           </div>
         </Card>
 
-        <Card>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+        <Card className="p-4 md:p-8">
+          <div className="flex items-center gap-4 mb-6">
             <div style={{ padding: '0.75rem', backgroundColor: 'var(--secondary)', color: 'var(--primary-dark)', borderRadius: '0.5rem' }}>
               <SettingsIcon size={24} />
             </div>
@@ -162,7 +162,7 @@ const Settings = () => {
         title="Change Password"
         icon={Key}
       >
-        <form onSubmit={handlePasswordChange} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <form onSubmit={handlePasswordChange} className="flex flex-col gap-4">
           {passwordError && (
             <div style={{ padding: '0.75rem', backgroundColor: 'var(--error-bg)', color: 'var(--error)', borderRadius: '0.25rem', fontSize: '0.875rem' }}>
               {passwordError}
@@ -214,7 +214,7 @@ const Settings = () => {
         title="Delete Account"
         icon={AlertTriangle}
       >
-        <form onSubmit={handleDeleteAccount} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <form onSubmit={handleDeleteAccount} className="flex flex-col gap-4">
           <div style={{ padding: '1rem', backgroundColor: 'var(--error-bg)', color: 'var(--error)', borderRadius: '0.5rem', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
             <strong>Warning:</strong> This action is permanent and cannot be undone. All your data, health history, and profile information will be permanently deleted.
           </div>

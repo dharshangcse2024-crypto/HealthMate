@@ -68,8 +68,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`fixed lg:sticky top-0 lg:top-4 left-0 h-[calc(100vh-2rem)] w-[280px] bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col z-40 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:ml-4 lg:mr-0'} transition-transform lg:transition-none duration-300 ease-in-out`}
-        style={window.innerWidth >= 1024 ? { margin: '1rem', marginRight: '0' } : {}}
+        className={`fixed top-0 left-0 h-full lg:h-[calc(100vh-2rem)] w-[280px] bg-white lg:rounded-2xl shadow-xl lg:shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col z-40 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out lg:sticky lg:top-4 lg:m-4 lg:mr-0`}
       >
         {/* Brand */}
       <div className="p-8 flex items-center gap-3">

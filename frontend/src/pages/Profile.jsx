@@ -114,16 +114,16 @@ const Profile = () => {
   }
 
   return (
-    <div className="main-content" style={{ padding: '2rem' }}>
-      <div style={{ margin: '0 auto', width: '100%', maxWidth: '800px' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{ color: 'var(--primary-dark)' }}>My Profile</h1>
-          <p style={{ color: 'var(--text-muted)' }}>Manage your personal and health information.</p>
+    <div className="main-content w-full">
+      <div className="mx-auto w-full max-w-3xl">
+        <div className="mb-6 md:mb-8 text-center md:text-left">
+          <h1 className="text-primary-dark text-3xl md:text-4xl mb-2">My Profile</h1>
+          <p className="text-muted-foreground">Manage your personal and health information.</p>
         </div>
 
-        <Card>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', paddingBottom: '2rem', borderBottom: '1px solid var(--border)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <Card className="p-4 md:p-8">
+        <div className="flex flex-col sm:flex-row items-center sm:justify-between mb-8 pb-8 border-b border-border gap-6 sm:gap-0">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-6">
             <div style={{ position: 'relative' }}>
               {profile.profile_picture ? (
                 <img src={profile.profile_picture} alt="Profile" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover' }} />
@@ -155,13 +155,13 @@ const Profile = () => {
           </div>
         )}
 
-        <form onSubmit={handleSave}>
-          <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary-dark)' }}>
+        <form onSubmit={handleSave} className="w-full">
+          <h3 className="mb-6 flex items-center justify-center sm:justify-start gap-2 text-primary-dark text-xl font-semibold w-full">
             <Activity size={20} /> Health Details
-            <img src="https://media.tenor.com/aC-aMv7vTfcAAAAi/dna-strand.gif" alt="3D DNA" style={{ width: '30px', height: '30px', marginLeft: 'auto' }} />
+            <img src="https://media.tenor.com/aC-aMv7vTfcAAAAi/dna-strand.gif" alt="3D DNA" className="w-[30px] h-[30px] ml-auto hidden sm:block" />
           </h3>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8 w-full">
             <Input 
               label="Name"
               type="text" 
@@ -222,18 +222,18 @@ const Profile = () => {
               placeholder="e.g. 70" 
             />
             
-            <div style={{ gridColumn: '1 / -1', padding: '2rem', backgroundColor: 'var(--secondary-light)', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem' }}>
+            <div className="col-span-1 md:col-span-2 p-6 md:p-8 bg-amber-50 rounded-2xl flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 w-full">
               {bmi ? (
                 <>
-                  <div style={{ textAlign: 'center' }}>
+                  <div className="text-center w-full sm:w-auto flex flex-col items-center">
                     <BmiGauge bmi={parseFloat(bmi)} category={bmiCategory.label} color={bmiCategory.color} />
-                    <div style={{ marginTop: '0.5rem' }}>
+                    <div className="mt-4">
                       <StatusBadge label={bmiCategory.label} color={bmiCategory.color} />
                     </div>
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <span style={{ fontWeight: 600, color: 'var(--text)' }}>Body Mass Index (BMI)</span>
-                    <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary-dark)' }}>{bmi}</span>
+                  <div className="flex flex-col gap-2 text-center sm:text-left mt-4 sm:mt-0">
+                    <span className="font-semibold text-foreground">Body Mass Index (BMI)</span>
+                    <span className="text-3xl font-bold text-primary-dark">{bmi}</span>
                   </div>
                 </>
               ) : (
@@ -244,12 +244,12 @@ const Profile = () => {
             </div>
           </div>
 
-          <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--error)' }}>
+          <h3 className="mb-6 flex items-center justify-center sm:justify-start gap-2 text-red-600 text-xl font-semibold w-full">
             <User size={20} /> Emergency Contact
-            <img src="https://media.tenor.com/s6pB3vBpeG8AAAAi/siren-alert.gif" alt="3D Siren" style={{ width: '30px', height: '30px', marginLeft: 'auto' }} />
+            <img src="https://media.tenor.com/s6pB3vBpeG8AAAAi/siren-alert.gif" alt="3D Siren" className="w-[30px] h-[30px] ml-auto hidden sm:block" />
           </h3>
           
-          <div style={{ marginBottom: '2rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8 w-full">
             <Input 
               label="Emergency Contact Name/Phone"
               type="text" 

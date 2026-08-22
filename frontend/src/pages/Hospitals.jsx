@@ -31,42 +31,34 @@ const Hospitals = () => {
   };
 
   return (
-    <div className="main-content">
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ color: 'var(--primary-dark)' }}>Nearby Hospitals</h1>
-        <p style={{ color: 'var(--text-muted)' }}>Find healthcare facilities near your current location.</p>
+    <div className="main-content w-full">
+      <div className="mb-6 md:mb-8 text-center md:text-left">
+        <h1 className="text-primary-dark text-3xl md:text-4xl mb-2">Nearby Hospitals</h1>
+        <p className="text-muted-foreground">Find healthcare facilities near your current location.</p>
       </div>
 
-      <Card style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+      <Card className="mb-6 md:mb-8 p-4 w-full max-w-3xl mx-auto md:mx-0">
+        <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center w-full">
           <input
             type="text"
             placeholder="Enter city, address, or landmark..."
             value={manualLocation}
             onChange={(e) => setManualLocation(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && findHospitalsByAddress()}
-            style={{
-              flex: 1,
-              padding: '0.625rem 0.875rem',
-              border: '1px solid var(--border)',
-              borderRadius: '0.5rem',
-              fontSize: '0.875rem',
-              outline: 'none',
-              background: 'var(--bg-secondary, #f9fafb)',
-            }}
+            className="flex-1 px-4 py-2.5 border border-border rounded-lg text-sm outline-none bg-secondary/30 focus:bg-background focus:ring-2 focus:ring-primary/20 w-full transition-all"
           />
-          <Button onClick={findHospitalsByAddress} loading={loading} icon={Search}>
+          <Button onClick={findHospitalsByAddress} loading={loading} icon={Search} className="w-full sm:w-auto flex justify-center py-2.5">
             Search
           </Button>
         </div>
-        {locationError && <div style={{ color: 'var(--error)', fontSize: '0.875rem', marginTop: '1rem' }}>{locationError}</div>}
+        {locationError && <div className="text-red-600 text-sm mt-4 p-3 bg-red-50 rounded-lg">{locationError}</div>}
       </Card>
 
       {hospitals.length > 0 && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '1.5rem' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 w-full">
           {hospitals.map(hospital => (
-            <Card key={hospital.id} style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+            <Card key={hospital.id} className="flex flex-col h-full p-4 md:p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg w-full">
+              <div className="flex justify-between items-start mb-4 gap-4">
                 <div>
                   <h3 style={{ margin: 0, fontSize: '1.125rem' }}>{hospital.name}</h3>
                   <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', margin: '0.25rem 0' }}>{hospital.address}</p>
@@ -85,7 +77,7 @@ const Hospitals = () => {
                 </div>
               </div>
               
-              <div style={{ display: 'flex', gap: '0.5rem', marginTop: 'auto', borderTop: '1px solid var(--border)', paddingTop: '1rem' }}>
+              <div className="flex flex-col sm:flex-row gap-2 mt-auto border-t border-border pt-4">
                 <Button onClick={() => {
                   alert(`Calling ${hospital.name} at ${hospital.phone}...`);
                   window.location.href = `tel:${hospital.phone.replace(/[^0-9+]/g, '')}`;

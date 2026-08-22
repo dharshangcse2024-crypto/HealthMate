@@ -33,12 +33,12 @@ const Topbar = ({ toggleSidebar }) => {
 
   return (
     <header className="flex items-center justify-between px-6 h-[80px] bg-transparent z-10 w-full">
-      <div className="flex items-center gap-6 flex-1">
-        <button onClick={toggleSidebar} className="lg:hidden bg-white/20 p-2 rounded-lg text-white hover:bg-white/30 transition-colors border border-white/30 backdrop-blur-sm">
+      <div className="flex items-center gap-4 md:gap-6 flex-1">
+        <button onClick={toggleSidebar} className="lg:hidden bg-white/20 p-2.5 rounded-xl text-white hover:bg-white/30 transition-colors border border-white/30 backdrop-blur-sm shadow-sm flex items-center justify-center">
           <Menu size={24} />
         </button>
         
-        <div className="flex items-center bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl px-4 py-2.5 w-full max-w-md shadow-sm transition-all focus-within:bg-white/30 focus-within:shadow-md">
+        <div className="hidden sm:flex items-center bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl px-4 py-2.5 w-full max-w-md shadow-sm transition-all focus-within:bg-white/30 focus-within:shadow-md">
           <Search size={20} className="text-white/80" />
           <input 
             type="text" 
@@ -53,7 +53,7 @@ const Topbar = ({ toggleSidebar }) => {
         {user && (
           <div 
             onClick={() => navigate('/profile')}
-            className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center font-bold text-lg border-2 border-white shadow-sm cursor-pointer overflow-hidden transition-transform hover:scale-105"
+            className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center font-bold text-lg border-2 border-white shadow-sm cursor-pointer overflow-hidden transition-transform hover:scale-105"
           >
             {user?.profile_picture ? (
               <img src={user.profile_picture} alt="Profile" className="w-full h-full object-cover" />

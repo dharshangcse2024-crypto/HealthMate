@@ -55,16 +55,16 @@ const SOSButton = () => {
   };
 
   return (
-    <Card style={{ padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+    <Card className="p-6 md:p-8 flex flex-col items-center justify-center text-center w-full">
       <motion.div 
         animate={loading ? { scale: [1, 1.1, 1], boxShadow: ["0px 0px 0px rgba(220, 38, 38, 0)", "0px 0px 20px rgba(220, 38, 38, 0.4)", "0px 0px 0px rgba(220, 38, 38, 0)"] } : { scale: 1, boxShadow: "none" }}
         transition={{ duration: 1.5, repeat: loading ? Infinity : 0, ease: "easeInOut" }}
-        style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: '#fee2e2', color: 'var(--error)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}
+        className="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4"
       >
         <AlertTriangle size={32} />
       </motion.div>
-      <h3 style={{ color: 'var(--error)', marginBottom: '0.5rem' }}>Emergency / SOS</h3>
-      <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
+      <h3 className="text-red-600 text-lg md:text-xl font-semibold mb-2">Emergency / SOS</h3>
+      <p className="text-sm text-muted-foreground mb-6 max-w-sm">
         In case of a medical emergency, contact immediate help.
       </p>
       
@@ -72,21 +72,14 @@ const SOSButton = () => {
         onClick={handleSOS} 
         loading={loading}
         icon={Mail}
-        style={{ 
-          backgroundColor: loading ? 'var(--text-muted)' : 'var(--error)', 
-          color: 'white', 
-          width: '100%', 
-          maxWidth: '250px',
-          display: 'flex', 
-          justifyContent: 'center', 
-          gap: '0.5rem'
-        }}
+        className={`w-full max-w-xs flex justify-center items-center gap-2 py-3 px-6 text-base font-semibold ${loading ? 'bg-muted-foreground' : 'bg-red-600 hover:bg-red-700'}`}
+        style={{ color: 'white' }}
       >
         {loading ? 'Sending...' : 'SOS Message'}
       </Button>
       
       {status && (
-        <div style={{ marginTop: '1rem', fontSize: '0.875rem', padding: '0.5rem 1rem', borderRadius: '0.5rem', backgroundColor: status.includes('Success') ? 'var(--success-bg)' : 'var(--error-bg)', color: status.includes('Success') ? 'var(--success)' : 'var(--error)' }}>
+        <div className={`mt-4 text-sm px-4 py-2 rounded-lg ${status.includes('Success') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
           {status}
         </div>
       )}

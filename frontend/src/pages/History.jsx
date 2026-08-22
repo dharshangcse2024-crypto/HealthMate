@@ -42,10 +42,10 @@ const History = () => {
   };
 
   return (
-    <div className="main-content">
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ color: 'var(--primary-dark)' }}>Health History</h1>
-        <p style={{ color: 'var(--text-muted)' }}>Review your past symptom checks, AI consultations, and medicine logs.</p>
+    <div className="main-content w-full">
+      <div className="mb-6 md:mb-8 text-center md:text-left">
+        <h1 className="text-primary-dark text-3xl md:text-4xl mb-2">Health History</h1>
+        <p className="text-muted-foreground">Review your past symptom checks, AI consultations, and medicine logs.</p>
       </div>
 
       {loading ? (
@@ -59,9 +59,9 @@ const History = () => {
           <p>You haven't made any symptom checks, chatted with the AI assistant, or logged any medicine yet.</p>
         </Card>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div className="flex flex-col gap-4 w-full">
           {history.map(record => (
-            <Card key={record.id} style={{ padding: '1.5rem', display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+            <Card key={record.id} className="p-4 md:p-6 flex flex-col sm:flex-row gap-4 md:gap-6 items-start w-full relative group">
               <div style={{ 
                 padding: '1rem', 
                 backgroundColor: record.record_type === 'ai_chat' ? '#fef3c7' : (record.record_type === 'medicine_reminder' ? '#dcfce7' : 'var(--secondary)'), 
@@ -71,12 +71,12 @@ const History = () => {
                 {record.record_type === 'ai_chat' ? <MessageSquareHeart size={24} /> : (record.record_type === 'medicine_reminder' ? <Pill size={24} /> : <Activity size={24} />)}
               </div>
               
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <h3 style={{ margin: 0, fontSize: '1.125rem' }}>
+              <div className="flex-1 w-full min-w-0 pr-8 sm:pr-10">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
+                  <h3 className="m-0 text-lg md:text-xl font-semibold text-foreground">
                     {record.record_type === 'ai_chat' ? 'AI Consultation' : (record.record_type === 'medicine_reminder' ? 'Medicine Reminder' : 'Symptom Check')}
                   </h3>
-                  <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                  <span className="text-xs md:text-sm text-muted-foreground">
                     {formatDate(record.created_at)}
                   </span>
                 </div>
@@ -98,15 +98,16 @@ const History = () => {
                       {record.symptoms ? JSON.parse(record.symptoms).join(', ') : 'None'}
                     </p>
                     <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--primary)', marginBottom: '0.25rem' }}>Analysis:</p>
-                    <p style={{ color: 'var(--text)', marginBottom: '1rem' }}>{record.prediction} ({record.prediction_score})</p>
+                    <p className="text-sm font-semibold text-primary mb-1">Analysis:</p>
+                    <p className="text-foreground mb-4">{record.prediction} ({record.prediction_score})</p>
                   </>
                 )}
               </div>
               
               <button 
-                onClick={() => deleteRecord(record.id)}
-                style={{ background: 'none', border: 'none', color: 'var(--error)', cursor: 'pointer', padding: '0.5rem', opacity: 0.7 }}
-                title="Delete Record"
+                onClick={() => deleteRecord(record.id)} 
+                className="absolute top-4 right-4 text-red-500 opacity-50 sm:opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-red-50 rounded-lg"
+                aria-label="Delete"
               >
                 <Trash2 size={20} />
               </button>

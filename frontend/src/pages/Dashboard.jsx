@@ -207,12 +207,12 @@ const Dashboard = () => {
       </div>
 
       {/* Top Row: BMI Card + SOS */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 w-full">
         
         {/* BMI Health Status Card */}
-        <Card style={{ padding: '2rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <Card className="p-4 md:p-8 w-full">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+            <div className="flex items-center gap-3">
               <div style={{ padding: '0.5rem', backgroundColor: 'var(--secondary)', borderRadius: '0.5rem', color: 'var(--primary)' }}>
                 <Heart size={20} />
               </div>
@@ -236,31 +236,31 @@ const Dashboard = () => {
           </div>
 
           {profileLoading ? (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
-              <Loader2 className="animate-spin" size={24} style={{ color: 'var(--primary)' }} />
+            <div className="flex justify-center p-8 w-full">
+              <Loader2 className="animate-spin text-primary" size={24} />
             </div>
           ) : bmi ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-              <div style={{ textAlign: 'center' }}>
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-8 w-full justify-around">
+              <div className="text-center w-full md:w-auto flex flex-col items-center">
                 <BmiGauge bmi={parseFloat(bmi)} category={bmiCategory.label} color={bmiCategory.color} />
-                <div style={{ marginTop: '0.5rem' }}>
+                <div className="mt-4">
                   <StatusBadge label={bmiCategory.label} color={bmiCategory.color} />
                 </div>
               </div>
-              <div style={{ flex: 1 }}>
+              <div className="flex-1 w-full">
                 <motion.div 
                   variants={containerVariants}
                   initial="hidden"
                   animate="show"
-                  style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}
+                  className="grid grid-cols-2 gap-4 w-full"
                 >
-                  <motion.div variants={itemVariants} style={{ padding: '0.75rem', backgroundColor: 'var(--background)', borderRadius: '0.5rem' }}>
+                  <motion.div variants={itemVariants} className="p-3 md:p-4 bg-background rounded-lg text-center">
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Height</div>
                     <div style={{ fontWeight: 'bold', color: 'var(--text)' }}>{profile?.height || '—'} cm</div>
                   </motion.div>
-                  <motion.div variants={itemVariants} style={{ padding: '0.75rem', backgroundColor: 'var(--background)', borderRadius: '0.5rem' }}>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Weight</div>
-                    <div style={{ fontWeight: 'bold', color: 'var(--text)' }}>{profile?.weight || '—'} kg</div>
+                  <motion.div variants={itemVariants} className="p-3 md:p-4 bg-background rounded-lg text-center">
+                    <div className="text-xs text-muted-foreground mb-1">Weight</div>
+                    <div className="font-bold text-foreground">{profile?.weight || '—'} kg</div>
                   </motion.div>
                 </motion.div>
                 <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '1rem', lineHeight: 1.5 }}>
@@ -269,10 +269,10 @@ const Dashboard = () => {
               </div>
             </div>
           ) : (
-            <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
-              <UserIcon size={40} style={{ opacity: 0.4, margin: '0 auto 1rem' }} />
-              <p style={{ marginBottom: '1rem' }}>Complete your profile to calculate BMI.</p>
-              <Link to="/profile" className="btn btn-primary" style={{ padding: '0.5rem 1.5rem' }}>
+            <div className="text-center p-8 text-muted-foreground w-full flex flex-col items-center">
+              <UserIcon size={40} className="opacity-40 mb-4" />
+              <p className="mb-4">Complete your profile to calculate BMI.</p>
+              <Link to="/profile" className="btn btn-primary px-6 py-2">
                 Go to Profile
               </Link>
             </div>
@@ -284,12 +284,12 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <h3 style={{ fontSize: '1.125rem', marginBottom: '1rem' }} className="text-foreground font-semibold">Quick Actions</h3>
+      <h3 className="text-lg md:text-xl mb-4 text-foreground font-semibold">Quick Actions</h3>
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-8 w-full"
+        className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4 mb-8 w-full"
       >
         {[
           { to: '/symptom-checker', icon: Stethoscope, label: 'Symptom Checker', desc: 'Check your symptoms', bg: 'var(--secondary-light)', color: 'var(--primary)' },
@@ -299,9 +299,9 @@ const Dashboard = () => {
           { to: '/medicines', icon: Activity, label: 'Medicine Info', desc: 'Look up medicines', bg: '#e0e7ff', color: '#4338ca' },
           { to: '/history', icon: ClipboardList, label: 'Health History', desc: 'View past records', bg: '#fce7f3', color: '#be185d' },
         ].map(action => (
-          <motion.div key={action.to} variants={itemVariants} whileHover={{ y: -5, transition: { duration: 0.2 } }}>
-            <Link to={action.to} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
-              <Card style={{ padding: '1.25rem', cursor: 'pointer', transition: 'all 0.2s ease', border: 'none', backgroundColor: action.bg, height: '100%', boxSizing: 'border-box' }}>
+          <motion.div key={action.to} variants={itemVariants} whileHover={{ y: -5, transition: { duration: 0.2 } }} className="h-full">
+            <Link to={action.to} className="block h-full no-underline hover:no-underline">
+              <Card className="p-3 md:p-5 cursor-pointer border-none h-full w-full transition-all duration-200 hover:shadow-md" style={{ backgroundColor: action.bg }}>
               <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', backgroundColor: 'white', color: action.color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.75rem', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
                 <action.icon size={20} />
               </div>
@@ -314,9 +314,9 @@ const Dashboard = () => {
       </motion.div>
 
       {/* Recent Activity — Real Data */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <h3 style={{ fontSize: '1.125rem', margin: 0 }}>Recent Activity</h3>
-        <Link to="/history" style={{ fontSize: '0.875rem', fontWeight: 500 }}>View All <ChevronRight size={14} style={{ verticalAlign: 'middle' }} /></Link>
+      <div className="flex justify-between items-center mb-4 w-full">
+        <h3 className="text-lg md:text-xl m-0 font-semibold">Recent Activity</h3>
+        <Link to="/history" className="text-sm font-medium flex items-center">View All <ChevronRight size={14} /></Link>
       </div>
 
       {activityLoading ? (
