@@ -337,7 +337,6 @@ const Chat = () => {
                 </form>
               </div>
             </div>
-            </div>
           ) : (
             // ACTIVE CHAT STATE
             <>

@@ -122,15 +122,6 @@ const ReminderNotification = () => {
     }
   };
 
-  const handleMarkTaken = async (id) => {
-    try {
-      await api.post(`/extended/reminders/${id}/log`, { action: 'taken' });
-      handleDismiss(id);
-    } catch (err) {
-      console.error("Failed to mark reminder as taken", err);
-    }
-  };
-
   return (
     <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 9999, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <AnimatePresence>

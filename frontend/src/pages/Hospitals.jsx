@@ -8,6 +8,7 @@ import api from '../services/api';
 
 const Hospitals = () => {
   const [loading, setLoading] = useState(false);
+  const [loadingGPS, setLoadingGPS] = useState(false);
   const [hospitals, setHospitals] = useState([]);
   const [locationError, setLocationError] = useState('');
   const [manualLocation, setManualLocation] = useState('');
@@ -30,6 +31,44 @@ const Hospitals = () => {
     }
   };
 
+  const findHospitalsByGPS = () => {
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by your browser.');
+      return;
+    }
+
+    setLoadingGPS(true);
+    setLocationError('');
+    setHospitals([]);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const res = await api.get(`/extended/hospitals/nearby?lat=${latitude}&lng=${longitude}`);
+          setHospitals(res.data);
+          setManualLocation('');
+        } catch (err) {
+          console.error("Failed to fetch hospitals by GPS:", err);
+          const detail = err.response?.data?.detail || 'Failed to find hospitals for your location.';
+          setLocationError(detail);
+        } finally {
+          setLoadingGPS(false);
+        }
+      },
+      (error) => {
+        setLoadingGPS(false);
+        console.error("Geolocation error:", error);
+        let errorMsg = 'Failed to get your location.';
+        if (error.code === 1) errorMsg = 'Location permission denied. Please enable it in your browser.';
+        else if (error.code === 2) errorMsg = 'Location information is unavailable.';
+        else if (error.code === 3) errorMsg = 'Location request timed out.';
+        setLocationError(errorMsg);
+      },
+      { timeout: 10000, enableHighAccuracy: true }
+    );
+  };
+
   return (
     <div className="main-content w-full">
       <div className="mb-6 md:mb-8 text-center md:text-left">
@@ -49,6 +88,9 @@ const Hospitals = () => {
           />
           <Button onClick={findHospitalsByAddress} loading={loading} icon={Search} className="w-full sm:w-auto flex justify-center py-2.5">
             Search
+          </Button>
+          <Button onClick={findHospitalsByGPS} loading={loadingGPS} variant="outline" icon={MapPin} className="w-full sm:w-auto flex justify-center py-2.5 whitespace-nowrap">
+            Use My Location
           </Button>
         </div>
         {locationError && <div className="text-red-600 text-sm mt-4 p-3 bg-red-50 rounded-lg">{locationError}</div>}
@@ -96,11 +138,11 @@ const Hospitals = () => {
         </div>
       )}
 
-      {hospitals.length === 0 && !loading && (
+      {hospitals.length === 0 && !loading && !loadingGPS && (
         <Card style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-muted)' }}>
           <Search size={48} style={{ margin: '0 auto 1rem', opacity: 0.5 }} />
-          <h3>Enter a Location</h3>
-          <p>Search for a city, address, or landmark above to find nearby healthcare facilities.</p>
+          <h3>Find Nearby Hospitals</h3>
+          <p>Search for a city or use your GPS location above to find nearby healthcare facilities.</p>
         </Card>
       )}
     </div>

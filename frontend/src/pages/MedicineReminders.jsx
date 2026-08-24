@@ -8,12 +8,45 @@ import Button from '../components/ui/Button';
 const DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 const MedicineReminders = () => {
+  const formatTimeAMPM = (timeStr) => {
+    if (!timeStr) return '';
+    const [hour, minute] = timeStr.split(':');
+    let h = parseInt(hour, 10);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return `${h.toString().padStart(2, '0')}:${minute} ${ampm}`;
+  };
+
+  const get12HourFormat = (time24) => {
+    if (!time24) return { h: '08', m: '00', ampm: 'AM' };
+    let [h, m] = time24.split(':');
+    h = parseInt(h, 10);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return { h: h.toString().padStart(2, '0'), m, ampm };
+  };
+
+  const handleTimeChange = (type, value) => {
+    const current = get12HourFormat(reminderTime || '08:00');
+    let { h, m, ampm } = current;
+    
+    if (type === 'h') h = value;
+    if (type === 'm') m = value;
+    if (type === 'ampm') ampm = value;
+    
+    let hours24 = parseInt(h, 10);
+    if (ampm === 'PM' && hours24 < 12) hours24 += 12;
+    if (ampm === 'AM' && hours24 === 12) hours24 = 0;
+    
+    setReminderTime(`${hours24.toString().padStart(2, '0')}:${m}`);
+  };
+
   const [reminders, setReminders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
   
   const [medicineName, setMedicineName] = useState('');
-  const [reminderTime, setReminderTime] = useState('');
+  const [reminderTime, setReminderTime] = useState('08:00');
   const [frequency, setFrequency] = useState('daily');
   const [selectedDays, setSelectedDays] = useState([]);
   const [foodInstruction, setFoodInstruction] = useState('');
@@ -69,7 +102,7 @@ const MedicineReminders = () => {
       
       // Reset form
       setMedicineName('');
-      setReminderTime('');
+      setReminderTime('08:00');
       setFrequency('daily');
       setSelectedDays([]);
       setFoodInstruction('');
@@ -137,13 +170,42 @@ const MedicineReminders = () => {
               placeholder="e.g. Paracetamol" 
             />
             
-            <Input 
-              label="Time (HH:MM)"
-              type="time" 
-              required 
-              value={reminderTime} 
-              onChange={e => setReminderTime(e.target.value)} 
-            />
+            <div className="input-group">
+              <label className="input-label">Time</label>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <select 
+                  className="input-field" 
+                  value={get12HourFormat(reminderTime || '08:00').h} 
+                  onChange={e => handleTimeChange('h', e.target.value)}
+                  style={{ flex: 1 }}
+                >
+                  {Array.from({ length: 12 }, (_, i) => {
+                    const val = (i + 1).toString().padStart(2, '0');
+                    return <option key={val} value={val}>{val}</option>;
+                  })}
+                </select>
+                <span style={{ display: 'flex', alignItems: 'center' }}>:</span>
+                <select 
+                  className="input-field" 
+                  value={get12HourFormat(reminderTime || '08:00').m} 
+                  onChange={e => handleTimeChange('m', e.target.value)}
+                  style={{ flex: 1 }}
+                >
+                  {['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'].map(val => (
+                    <option key={val} value={val}>{val}</option>
+                  ))}
+                </select>
+                <select 
+                  className="input-field" 
+                  value={get12HourFormat(reminderTime || '08:00').ampm} 
+                  onChange={e => handleTimeChange('ampm', e.target.value)}
+                  style={{ flex: 1 }}
+                >
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
+            </div>
 
             <div className="input-group">
               <label className="input-label">Frequency</label>
@@ -227,7 +289,7 @@ const MedicineReminders = () => {
                 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' }}>
                   <span style={{ backgroundColor: 'var(--secondary-light)', padding: '0.25rem 0.5rem', borderRadius: '0.25rem', fontSize: '0.75rem', fontWeight: '500' }}>
-                    ⏰ {reminder.reminder_time}
+                    ⏰ {formatTimeAMPM(reminder.reminder_time)}
                   </span>
                   
                   {reminder.frequency === 'daily' ? (

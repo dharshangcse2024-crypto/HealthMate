@@ -1,5 +1,5 @@
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from app.database.connection import AsyncSessionLocal
 from sqlalchemy.future import select
 from app.models.extended import MedicineReminder
@@ -8,6 +8,10 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+try:
+    from twilio.rest import Client
+except ImportError:
+    pass
 
 scheduler = AsyncIOScheduler()
 
@@ -44,8 +48,51 @@ async def check_and_send_reminders():
                 if current_day not in reminder.days_of_week.split(','):
                     continue
 
-            # Send notification
+            # Send notifications
             send_reminder_email(user, profile, reminder)
+            send_whatsapp_reminder(user, profile, reminder)
+
+def send_whatsapp_reminder(user, profile, reminder):
+    account_sid = os.getenv('TWILIO_ACCOUNT_SID')
+    auth_token = os.getenv('TWILIO_AUTH_TOKEN')
+    from_number = os.getenv('TWILIO_WHATSAPP_NUMBER')
+    to_number = os.getenv('TARGET_WHATSAPP_NUMBER')
+
+    if not all([account_sid, auth_token, from_number, to_number]):
+        print("Skipping WhatsApp: Twilio credentials not fully configured in .env")
+        return
+
+    # Don't try to send if it's the dummy placeholder
+    if account_sid == "your_account_sid":
+        return
+
+    try:
+        client = Client(account_sid, auth_token)
+        
+        food_instruction = ""
+        if reminder.food_instruction:
+            if reminder.food_instruction == 'before_food':
+                food_instruction = " (Before Food)"
+            elif reminder.food_instruction == 'after_food':
+                food_instruction = " (After Food)"
+            elif reminder.food_instruction == 'with_food':
+                food_instruction = " (With Food)"
+
+        message_body = (
+            f"💊 *HealthMate Reminder*\n\n"
+            f"Hello {profile.first_name},\n"
+            f"It is time to take your medicine: *{reminder.medicine_name}* at {reminder.reminder_time}{food_instruction}.\n\n"
+            f"Stay healthy!"
+        )
+
+        message = client.messages.create(
+            from_=from_number,
+            body=message_body,
+            to=to_number
+        )
+        print(f"WhatsApp reminder sent successfully! SID: {message.sid}")
+    except Exception as e:
+        print(f"Failed to send WhatsApp reminder: {e}")
 
 def send_reminder_email(user, profile, reminder):
     receiver_email = user.email # Normally user email for medicine
