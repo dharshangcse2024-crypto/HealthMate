@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from typing import List, Optional
@@ -87,8 +87,19 @@ async def log_reminder(id: str, log_data: ReminderLogCreate, current_user: User 
 
 # --- SOS Notify ---
 
+def send_sos_email_sync(smtp_server, smtp_port, smtp_user, smtp_password, msg):
+    try:
+        server = smtplib.SMTP(smtp_server, int(smtp_port))
+        server.starttls()
+        if smtp_user and smtp_password:
+            server.login(smtp_user, smtp_password)
+        server.send_message(msg)
+        server.quit()
+    except Exception as e:
+        print(f"SMTP Error in background task: {e}")
+
 @router.post("/sos/notify", response_model=SOSLogResponse)
-async def notify_sos(latitude: Optional[float] = None, longitude: Optional[float] = None, current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+async def notify_sos(background_tasks: BackgroundTasks, latitude: Optional[float] = None, longitude: Optional[float] = None, current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     # Get Emergency Contact
     result = await db.execute(select(Profile).filter(Profile.user_id == current_user.id))
     profile = result.scalars().first()
@@ -128,16 +139,7 @@ async def notify_sos(latitude: Optional[float] = None, longitude: Optional[float
     smtp_password = os.getenv("SMTP_PASSWORD")
 
     if smtp_server and smtp_port:
-        try:
-            server = smtplib.SMTP(smtp_server, int(smtp_port))
-            server.starttls()
-            if smtp_user and smtp_password:
-                server.login(smtp_user, smtp_password)
-            server.send_message(msg)
-            server.quit()
-        except Exception as e:
-            print(f"SMTP Error: {e}")
-            raise HTTPException(status_code=500, detail="Failed to send SOS email alert.")
+        background_tasks.add_task(send_sos_email_sync, smtp_server, smtp_port, smtp_user, smtp_password, msg)
     else:
         # Fallback for local testing if SMTP not configured, just print to console
         print(f"\n--- SOS EMAIL SIMULATION (SMTP Not Configured) ---")
