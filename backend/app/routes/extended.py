@@ -198,7 +198,7 @@ async def get_nearby_hospitals(lat: float, lng: float, radius: int = 5000, curre
                 response = await client.get(
                     endpoint,
                     params={"data": query},
-                    headers={"User-Agent": "HealthMate/1.0"},
+                    headers={"User-Agent": "HealthMateApp/1.0 (support@healthmate.local)"},
                     timeout=15.0,
                 )
                 response.raise_for_status()
@@ -273,7 +273,7 @@ async def get_hospitals_by_location_query(query: str, radius: int = 5000, curren
             geocode_resp = await client.get(
                 "https://nominatim.openstreetmap.org/search",
                 params={"q": query.strip(), "format": "json", "limit": 1},
-                headers={"User-Agent": "HealthMate/1.0"},
+                headers={"User-Agent": "HealthMateApp/1.0 (support@healthmate.local)"},
                 timeout=10.0,
             )
             geocode_resp.raise_for_status()
