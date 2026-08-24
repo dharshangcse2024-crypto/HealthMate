@@ -316,24 +316,24 @@ const Chat = () => {
 
               {/* Empty state input bar wrapper */}
               <div className="w-full max-w-2xl relative mx-auto mb-4 md:mb-8 px-4 md:px-0">
-                <form onSubmit={handleSend} className="flex items-center bg-[#f4f4f4] md:bg-[#2f2f2f] rounded-full overflow-hidden p-1 shadow-sm md:shadow-md transition-all duration-200 focus-within:ring-2 focus-within:ring-gray-200 md:focus-within:ring-0 md:focus-within:border-primary md:border-none">
-                  <div className="pl-3 pr-1 text-gray-500 md:text-gray-400">
+                <form onSubmit={handleSend} className="flex items-center bg-surface border border-border rounded-full overflow-hidden p-1 shadow-sm md:shadow-md transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary">
+                  <div className="pl-3 pr-1 text-muted-foreground">
                     <Plus size={24} />
                   </div>
                   <input
                     type="text"
-                    className="flex-1 border-none bg-transparent px-2 py-3 md:py-3.5 text-base outline-none text-gray-800 md:text-white w-full placeholder-gray-500 md:placeholder-gray-400"
-                    placeholder="Ask ChatGPT"
+                    className="flex-1 border-none bg-transparent px-2 py-3 md:py-3.5 text-base outline-none text-foreground w-full placeholder-muted-foreground"
+                    placeholder="Ask Health Mate"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     disabled={loading}
                   />
                   <div className="pr-1 flex items-center gap-2">
                     {/* Voice icon placeholder */}
-                    <div className="w-8 h-8 rounded-full bg-[#fbbc05] md:hidden flex items-center justify-center text-white">
+                    <div className="w-8 h-8 rounded-full bg-primary/20 md:hidden flex items-center justify-center text-primary">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     </div>
-                    <button type="submit" disabled={loading || !input.trim()} className={`p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-gray-400 cursor-not-allowed' : 'bg-black md:bg-blue-500 text-white cursor-pointer hover:bg-gray-800'}`}>
+                    <button type="submit" disabled={loading || !input.trim()} className={`p-2 rounded-full flex items-center justify-center transition-colors ${loading || !input.trim() ? 'bg-transparent text-muted-foreground cursor-not-allowed' : 'bg-primary text-white cursor-pointer hover:opacity-90'}`}>
                       {loading ? <Loader2 className="animate-spin" size={20} /> : <Activity size={20} className="rotate-90" />}
                     </button>
                   </div>
@@ -394,7 +394,7 @@ const Chat = () => {
                     <input
                       type="text"
                       className="border-none bg-transparent px-2 py-3 md:py-3.5 text-base outline-none text-gray-800 md:text-foreground w-full placeholder-gray-500 md:placeholder-muted-foreground"
-                      placeholder="Ask ChatGPT"
+                      placeholder="Ask Health Mate"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       disabled={loading}
