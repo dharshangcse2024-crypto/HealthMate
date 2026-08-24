@@ -82,15 +82,14 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
 async def google_auth(token_data: GoogleToken, db: AsyncSession = Depends(get_db)):
     try:
         # Verify the access token via Google UserInfo API
-        import httpx
-        async with httpx.AsyncClient() as client:
-            response = await client.get(
-                "https://www.googleapis.com/oauth2/v3/userinfo",
-                headers={"Authorization": f"Bearer {token_data.token}"}
-            )
-            if response.status_code != 200:
-                raise ValueError("Invalid Google token")
-            idinfo = response.json()
+        import requests
+        response = requests.get(
+            "https://www.googleapis.com/oauth2/v3/userinfo",
+            headers={"Authorization": f"Bearer {token_data.token}"}
+        )
+        if response.status_code != 200:
+            raise ValueError("Invalid Google token")
+        idinfo = response.json()
             
         email = idinfo.get("email")
         name = idinfo.get("name")
@@ -130,6 +129,10 @@ async def google_auth(token_data: GoogleToken, db: AsyncSession = Depends(get_db
         
     except ValueError:
         raise HTTPException(status_code=401, detail="Invalid Google token")
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Google login failed internally: {str(e)}")
 
 @router.patch("/password")
 async def change_password(

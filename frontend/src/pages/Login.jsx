@@ -35,11 +35,6 @@ const Login = () => {
       setGoogleLoading(true);
       setError('');
       try {
-        const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
-        });
-        await userInfoRes.json();
-        
         const response = await api.post('/auth/google', {
           token: tokenResponse.access_token
         });
