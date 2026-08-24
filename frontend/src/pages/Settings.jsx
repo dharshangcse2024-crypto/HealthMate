@@ -102,22 +102,6 @@ const Settings = () => {
         
         <Card className="p-4 md:p-8">
           <div className="flex items-center gap-4 mb-6">
-            <div style={{ padding: '0.75rem', backgroundColor: 'var(--info-bg)', color: 'var(--info)', borderRadius: '0.5rem' }}>
-              <Bell size={24} />
-            </div>
-            <h3 style={{ margin: 0 }}>Notifications</h3>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 0' }}>
-            <div>
-              <h4 style={{ margin: 0 }}>Medicine Reminders</h4>
-              <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.875rem' }}>Receive alerts when it's time to take your medication.</p>
-            </div>
-            <input type="checkbox" defaultChecked style={{ width: '1.25rem', height: '1.25rem' }} />
-          </div>
-        </Card>
-
-        <Card className="p-4 md:p-8">
-          <div className="flex items-center gap-4 mb-6">
             <div style={{ padding: '0.75rem', backgroundColor: 'var(--success-bg)', color: 'var(--success)', borderRadius: '0.5rem' }}>
               <Shield size={24} />
             </div>
