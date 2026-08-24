@@ -19,7 +19,10 @@ const Chat = () => {
   const [sessionsLoading, setSessionsLoading] = useState(true);
   const [editingSessionId, setEditingSessionId] = useState(null);
   const [editingTitle, setEditingTitle] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const messagesEndRef = useRef(null);
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   const fetchSessions = async () => {
     try {
@@ -269,7 +272,7 @@ const Chat = () => {
             Get Plus
           </button>
           
-          <button className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white" onClick={createNewSession}>
+          <button className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white" onClick={handleNewChat}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
           </button>
         </div>
