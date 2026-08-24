@@ -116,15 +116,15 @@ async def notify_sos(background_tasks: BackgroundTasks, latitude: Optional[float
     receiver_email = profile.emergency_contact_email
     subject = "SOS / Emergency Alert - HealthMate"
     
-    body = f"SOS Alert from HealthMate\n\n"
-    body += f"User: {current_user.name}\n"
-    body += f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+    body = "This is an emergency alert from HealthMate.\n"
+    body += f"Patient: {current_user.name}\n"
+    body += "Emergency: Medical assistance required.\n"
     if location_link:
-        body += f"Last Known Location: {location_link}\n"
+        body += f"Location: {location_link}\n"
     else:
-        body += "Last Known Location: Not Available\n"
-        
-    body += "\nThis is an automated alert. The user has triggered an SOS request and may need immediate assistance."
+        body += "Location: Not Available\n"
+    body += "Please provide immediate assistance or contact emergency medical services.\n"
+    body += f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
     msg = MIMEMultipart()
     msg['From'] = sender_email
